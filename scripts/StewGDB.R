@@ -3,10 +3,10 @@ library(rgdal)
 library(sf)
 library(dplyr)
 
+# Check working directory
+getwd()
 
-setwd("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship")
-
-gdb = path.expand("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship/Stewardship_3v")
+gdb <- path.expand("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship/Stewardship_3v")
 
 ogrListLayers("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship/Stewardship_3v.gdb")
 
