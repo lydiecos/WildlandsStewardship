@@ -2,14 +2,17 @@ library(rgeos)
 library(rgdal)
 library(sf)
 library(dplyr)
+install.packages(arcgisbinding)
+library(arcgisbinding)
 
 # Check working directory
 getwd()
 
-gdb <- path.expand("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship/Stewardship_3v")
+#gdb <- path.expand("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship/Stewardship_3v")
 
-ogrListLayers("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship/Stewardship_3v.gdb")
+#ogrListLayers("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship/Stewardship_3v.gdb")
 
+# Read in features from GDB file
 Point <- st_read("Stewardship_3v.gdb", layer = 'Issue_Point')
 Line <- st_read("Stewardship_3v.gdb", layer = 'Issue_Line')
 Polygon <- st_read("Stewardship_3v.gdb", layer = 'Issue_Area')
@@ -21,10 +24,12 @@ MngActionPoint <- st_read("Stewardship_3v.gdb", layer = 'MngActionPoint')
 MngActionLine <- st_read("Stewardship_3v.gdb", layer = 'MngActionLine')
 MngActionArea <- st_read("Stewardship_3v.gdb", layer = 'MngActionArea')
 
+# Extract site names for each data type
 site_names_pt = data.frame(sort(unique(Point$Site)))
 site_names_ln = data.frame(sort(unique(Line$Site)))
 site_names_poly = data.frame(sort(unique(Polygon$Site)))
 
+# Add issue data to management actions (polygons)
 cc=data.frame() 
 dd=data.frame()                
 for (gi in sort(MngActionArea$REL_GLOBALID)){
