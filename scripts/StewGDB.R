@@ -1,48 +1,63 @@
+# Script for exporting Stewardship GDB from AGOL
+# Wildlands Engineering
+# by Lydie Costes and Andrew Radecki
+
+# Instructions for connecting to ArcGIS via ArcPro:
+# https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/geoprocessing-options.htm#ESRI_SECTION1_E0E5BD3DB3134FC690CD68E44CF2D5EE
+# Alternative method:
+# https://github.com/R-ArcGIS/r-bridge-install
+
 library(rgeos)
 library(rgdal)
 library(sf)
 library(dplyr)
-install.packages(arcgisbinding)
 library(arcgisbinding)
+arc.check_product()
+
+# Check you are logged in to AGOL
+arc.check_portal()
+# (if not, go log in!)
 
 # Check working directory
 getwd()
 
-#gdb <- path.expand("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship/Stewardship_3v")
+# Import GDB workspace
+GDBworkspace <- arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer")
 
-#ogrListLayers("C:/Users/aradecki/OneDrive - Wildlands Engineering Inc/Documents/Stewardship/Stewardship_3v.gdb")
+# Extract issue features as spatial dataframes
+Point <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/0"))
+Line <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/1"))
+Poly <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/2"))
 
-# Read in features from GDB file
-Point <- st_read("Stewardship_3v.gdb", layer = 'Issue_Point')
-Line <- st_read("Stewardship_3v.gdb", layer = 'Issue_Line')
-Polygon <- st_read("Stewardship_3v.gdb", layer = 'Issue_Area')
+# Extract revised features 
+RevisedLine <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/3"))
+RevisedArea <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/4"))
 
-RevisedLine <- st_read("Stewardship_3v.gdb", layer = 'Revised_Line')
-RevisedArea <- st_read("Stewardship_3v.gdb", layer = 'Revised_Area')
-
-MngActionPoint <- st_read("Stewardship_3v.gdb", layer = 'MngActionPoint')
-MngActionLine <- st_read("Stewardship_3v.gdb", layer = 'MngActionLine')
-MngActionArea <- st_read("Stewardship_3v.gdb", layer = 'MngActionArea')
+# Extract management action tables
+MngActionLine <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/5"))
+MngActionArea <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/6"))
+MngActionPoint <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/7"))
 
 # Extract site names for each data type
-site_names_pt = data.frame(sort(unique(Point$Site)))
-site_names_ln = data.frame(sort(unique(Line$Site)))
-site_names_poly = data.frame(sort(unique(Polygon$Site)))
+site_names_pt <- data.frame(sort(unique(trimws(Point$Site))))
+site_names_ln <- data.frame(sort(unique(trimws(Line$Site))))
+site_names_poly <- data.frame(sort(unique(trimws(Poly$Site))))
 
-# Add issue data to management actions (polygons)
+# Extract data with management actions (polygons)
 cc=data.frame() 
 dd=data.frame()                
 for (gi in sort(MngActionArea$REL_GLOBALID)){
-  aa=subset(Polygon, GlobalID==gi)
+  aa=subset(Poly, GlobalID==gi)
   bb=subset(MngActionArea, REL_GLOBALID==gi)
   cc=rbind(cc,aa)
   dd=rbind(dd,bb)
 }
 
-dd=dd[c(1:8,10:18)]
-colnames(dd)=c("Treat_Desc","Contractor","InspDate","Treat_Method_1","Chemical_1","Treat_Method_2","Chemical_2","Adjuvant","GlobalID",
-               "Subtype", "CreationDate","Creator","EditDate","Editor","Percent_CntrlEffective_","TreatDate","ISSUE_ID")      
+# Rename GlobalID column to match
+dd=dd[c(2:9,11:19)]
+colnames(dd)[9] <- "GlobalID"
 
+# Combine issue data with management data
 cc=distinct(cc)
 dd=distinct(dd)
 ee=merge.data.frame(cc,dd,by="GlobalID")
