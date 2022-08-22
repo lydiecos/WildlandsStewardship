@@ -43,6 +43,9 @@ site_names_pt <- data.frame(sort(unique(trimws(Point$Site))))
 site_names_ln <- data.frame(sort(unique(trimws(Line$Site))))
 site_names_poly <- data.frame(sort(unique(trimws(Poly$Site))))
 
+
+#### POLYGON DATA ####
+
 # Extract data with management actions (polygons)
 cc=data.frame() 
 dd=data.frame()                
@@ -62,20 +65,147 @@ cc=distinct(cc)
 dd=distinct(dd)
 ee=merge.data.frame(cc,dd,by="GlobalID")
 ee=distinct(ee)
+colnames(ee)[3] <- "Subtype"
+
+# Add in data with no management actions
+Issue_Mgmt_Poly <- data.frame(ee)
+for (gi in Poly$GlobalID){
+  if (gi %in% ee$GlobalID) {
+    } else Issue_Mgmt_Poly <- bind_rows(Issue_Mgmt_Poly, Poly[which(Poly$GlobalID == gi),])
+}
 
 # Change "na" text to actual NAs
-ee <- ee %>%
+Issue_Mgmt_Poly <- Issue_Mgmt_Poly %>%
   mutate(across(.cols=c("InvSpecies_1", "InvSpecies_2", "InvSpecies_3", 
                         "InvSpecies_4", "InvSpecies_5", "Issue", 
                         "Issue_LocationOrFeature", "Percent_CoverAffected_Veg", 
                         "Percent_CoverAffected_1", "Percent_CoverAffected_2", 
                         "Percent_CoverAffected_3", "Percent_CoverAffected_4",
-                        "Percent_CoverAffected_5", "Adjuvant"), na_if, "na"))
+                        "Percent_CoverAffected_5", "Treat_Method_1", 
+                        "Chemical_1", "Adjuvant"), na_if, "na"))
 
-# Add in data with no management actions
-ff <- data.frame(ee)
-for (gi in Poly$GlobalID){
-  if (gi %in% ee$GlobalID) {
-    } else ff <- bind_rows(ff, Poly[which(Poly$GlobalID == gi),])
+# Specify subtype
+Issue_Mgmt_Poly <- Issue_Mgmt_Poly %>%
+  mutate(Subtype = as.character(Subtype), 
+         Subtype = recode(Subtype,'0' = 'Misc', '1' = 'Weed Occurrence', 
+                           '2' = 'Vegetation Issue', '3' = 'CE Encroachment'))
+
+
+#### LINE DATA ####
+
+# Extract data with management actions (lines)
+cc=data.frame() 
+dd=data.frame()                
+for (gi in sort(MngActionLine$REL_GLOBALID)){
+  aa=subset(Line, GlobalID==gi)
+  bb=subset(MngActionLine, REL_GLOBALID==gi)
+  cc=rbind(cc,aa)
+  dd=rbind(dd,bb)
 }
 
+# Rename GlobalID column to match
+dd=dd[c(2:9,11:19)]
+colnames(dd)[9] <- "GlobalID"
+
+# Combine issue data with management data
+cc=distinct(cc)
+dd=distinct(dd)
+ee=merge.data.frame(cc,dd,by="GlobalID")
+ee=distinct(ee)
+colnames(ee)[3] <- "Subtype"
+
+# Add in data with no management actions
+Issue_Mgmt_Line <- data.frame(ee)
+for (gi in Line$GlobalID){
+  if (gi %in% ee$GlobalID) {
+  } else Issue_Mgmt_Line <- bind_rows(Issue_Mgmt_Line, Line[which(Line$GlobalID == gi),])
+}
+
+# Change "na" text to actual NAs
+Issue_Mgmt_Line <- Issue_Mgmt_Line %>%
+  mutate(across(.cols=c("Issue", "Issue_LocationOrFeature",
+                        "Percent_CoverAffected", "Treat_Method_1", 
+                        "Chemical_1"), na_if, "na"))
+
+# Specify subtype
+Issue_Mgmt_Line <- Issue_Mgmt_Line %>%
+  mutate(Subtype = as.character(Subtype), 
+         Subtype = recode(Subtype,'0' = 'Misc', '1' = 'Boundary Issue', 
+                          '2' = 'Channel Stability/Erosion', 
+                          '3' = 'In-Stream Vegetation',
+                          '4' = 'Needs Livestakes'))
+
+
+#### POINT DATA ####
+
+# Extract data with management actions (points)
+cc=data.frame() 
+dd=data.frame()                
+for (gi in sort(MngActionPoint$REL_GLOBALID)){
+  aa=subset(Point, GlobalID==gi)
+  bb=subset(MngActionPoint, REL_GLOBALID==gi)
+  cc=rbind(cc,aa)
+  dd=rbind(dd,bb)
+}
+
+# Rename GlobalID column to match
+dd=dd[c(2:9,11:19)]
+colnames(dd)[9] <- "GlobalID"
+
+# Combine issue data with management data
+cc=distinct(cc)
+dd=distinct(dd)
+ee=merge.data.frame(cc,dd,by="GlobalID")
+ee=distinct(ee)
+colnames(ee)[3] <- "Subtype"
+
+# Add in data with no management actions
+Issue_Mgmt_Point <- data.frame(ee)
+for (gi in Point$GlobalID){
+  if (gi %in% ee$GlobalID) {
+  } else Issue_Mgmt_Point <- bind_rows(Issue_Mgmt_Point, Point[which(Point$GlobalID == gi),])
+}
+
+# Change "na" text to actual NAs
+Issue_Mgmt_Point <- Issue_Mgmt_Point %>%
+  mutate(across(.cols=c("InvSpecies_1", "InvSpecies_2", "InvSpecies_3", 
+                        "InvSpecies_4", "InvSpecies_5", "Mature", 
+                        "Percent_CoverAffected_1", "Severity", 
+                        "Percent_CoverAffected_2", "Percent_CoverAffected_3", 
+                        "Percent_CoverAffected_4", "Percent_CoverAffected_5", 
+                        "Issue", "Issue_LocationOrFeature", "Treat_Method_1", 
+                        "Chemical_1", "Treat_Method_2", "Chemical_2",
+                        "Adjuvant", "Percent_CntrlEffective_"), na_if, "na"))
+
+# Specify subtype
+Issue_Mgmt_Point <- Issue_Mgmt_Point %>%
+  mutate(Subtype = as.character(Subtype), 
+         Subtype = recode(Subtype,'0' = 'Misc', '1' = 'Weed Occurrence', 
+                          '2' = 'Failed Structure', '3' = 'Beaver Dam',
+                          '4' = 'Soil Sample'))
+
+
+#### Combined Data ####
+
+Issue_Mgmt_All <- bind_rows(Issue_Mgmt_Poly, Issue_Mgmt_Line, Issue_Mgmt_Point)
+
+
+#### Sort by Issue ####
+
+Misc <- Issue_Mgmt_All %>% 
+  filter(Subtype == "Misc") %>%
+  select(Site, Year, Issue_Desc, Issue_LocationOrFeature, Treated, Treat_Desc,
+         Contractor, Resolved) %>%
+  arrange(Site, Year, Treated)
+
+Vegetation <- Issue_Mgmt_All %>% 
+  filter(Subtype == "Vegetation Issue") %>%
+  select(Site, Year, Issue, Issue_Desc, Percent_CoverAffected_Veg, Treated,
+         Treat_Desc, Contractor, Treat_Method_1, Chemical_1, Resolved) %>%
+  arrange(Site, Year, Treated)
+
+Weed <- Issue_Mgmt_All %>%
+  filter(Subtype == "Weed Occurrence") %>%
+  select()
+
+# To do: add Lead Steward column!
