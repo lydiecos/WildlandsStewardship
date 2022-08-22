@@ -62,3 +62,20 @@ cc=distinct(cc)
 dd=distinct(dd)
 ee=merge.data.frame(cc,dd,by="GlobalID")
 ee=distinct(ee)
+
+# Change "na" text to actual NAs
+ee <- ee %>%
+  mutate(across(.cols=c("InvSpecies_1", "InvSpecies_2", "InvSpecies_3", 
+                        "InvSpecies_4", "InvSpecies_5", "Issue", 
+                        "Issue_LocationOrFeature", "Percent_CoverAffected_Veg", 
+                        "Percent_CoverAffected_1", "Percent_CoverAffected_2", 
+                        "Percent_CoverAffected_3", "Percent_CoverAffected_4",
+                        "Percent_CoverAffected_5", "Adjuvant"), na_if, "na"))
+
+# Add in data with no management actions
+ff <- data.frame(ee)
+for (gi in Poly$GlobalID){
+  if (gi %in% ee$GlobalID) {
+    } else ff <- bind_rows(ff, Poly[which(Poly$GlobalID == gi),])
+}
+
