@@ -1,6 +1,10 @@
 # Script for exporting Stewardship GDB from AGOL
 # Wildlands Engineering
 # by Lydie Costes and Andrew Radecki
+# 2022
+
+# Note that the Lead Steward document must be kept up-to-date
+# Last updated 8/23/2022.
 
 # Instructions for connecting to ArcGIS via ArcPro:
 # https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/geoprocessing-options.htm#ESRI_SECTION1_E0E5BD3DB3134FC690CD68E44CF2D5EE
@@ -42,6 +46,9 @@ MngActionPoint <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRu
 site_names_pt <- data.frame(sort(unique(trimws(Point$Site))))
 site_names_ln <- data.frame(sort(unique(trimws(Line$Site))))
 site_names_poly <- data.frame(sort(unique(trimws(Poly$Site))))
+
+# Bring in Lead Steward data
+LeadSteward <- read.csv("data/LeadSteward.csv")
 
 
 #### POLYGON DATA ####
@@ -189,23 +196,42 @@ Issue_Mgmt_Point <- Issue_Mgmt_Point %>%
 
 Issue_Mgmt_All <- bind_rows(Issue_Mgmt_Poly, Issue_Mgmt_Line, Issue_Mgmt_Point)
 
+# Remove white spaces to consolidate site names
+Issue_Mgmt_All$Site <- trimws(Issue_Mgmt_All$Site)
+
+# Add Lead Steward
+n <- 1
+for (s in Issue_Mgmt_All$Site){
+  if (s %in% LeadSteward$Site){
+    Issue_Mgmt_All$Lead_Steward[n] <- LeadSteward$Steward[LeadSteward$Site == s]
+  } else {
+    Issue_Mgmt_All$Lead_Steward < NA
+  }
+  n = n + 1
+}
+
 
 #### Sort by Issue ####
 
 Misc <- Issue_Mgmt_All %>% 
   filter(Subtype == "Misc") %>%
   select(Site, Year, Issue_Desc, Issue_LocationOrFeature, Treated, Treat_Desc,
-         Contractor, Resolved) %>%
+         Contractor, Resolved, Lead_Steward) %>%
   arrange(Site, Year, Treated)
 
 Vegetation <- Issue_Mgmt_All %>% 
   filter(Subtype == "Vegetation Issue") %>%
   select(Site, Year, Issue, Issue_Desc, Percent_CoverAffected_Veg, Treated,
-         Treat_Desc, Contractor, Treat_Method_1, Chemical_1, Resolved) %>%
+         Treat_Desc, Contractor, Treat_Method_1, Chemical_1, Resolved,
+         Lead_Steward) %>%
   arrange(Site, Year, Treated)
 
 Weed <- Issue_Mgmt_All %>%
   filter(Subtype == "Weed Occurrence") %>%
-  select()
+  select(Site, Year, InvSpecies_1, InvSpecies_2, InvSpecies_3, InvSpecies_4, 
+         InvSpecies_5, Issue_Desc, Treat_Desc, Contractor, Treat_Method_1, 
+         Chemical_1, Treat_Method_2, Chemical_2, Adjuvant, TreatDate,
+         Percent_CntrlEffective_, Resolved, Lead_Steward) %>%
+  arrange(Site, Year, InvSpecies_1)
 
-# To do: add Lead Steward column!
+# Once tables are split by site or steward, filter to remove any blank columns
