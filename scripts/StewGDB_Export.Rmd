@@ -1,16 +1,21 @@
-# Script for exporting Stewardship GDB from AGOL
-# Wildlands Engineering
-# by Lydie Costes and Andrew Radecki
-# 2022
+---
+title: "Stew GDB Export"
+author: "Lydie Costes"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
 
-# Note that the Lead Steward document must be kept up-to-date
-# Last updated 8/23/2022.
+```{r setup, include=FALSE}
+# Update this script from 
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-# Instructions for connecting to ArcGIS via ArcPro:
-# https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/geoprocessing-options.htm#ESRI_SECTION1_E0E5BD3DB3134FC690CD68E44CF2D5EE
-# Alternative method:
-# https://github.com/R-ArcGIS/r-bridge-install
+## R Markdown
 
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+
+```{r cars}
 library(rgeos)
 library(rgdal)
 library(sf)
@@ -257,3 +262,15 @@ Weed <- Issue_Mgmt_All %>%
 # Export to PDF by site or Steward
 # Once tables are split by site or steward, filter to remove any blank columns
 # Explore exporting shapefiles for each site
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
