@@ -1,0 +1,88 @@
+---
+title: "Stewardship for `r s`"
+author: "Lead Steward: `r first(SiteAll$Lead_Steward)`"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+opts_chunk$set(echo = TRUE)
+
+# text to reinsert in title: SiteB$Site[1]
+
+# Instructions here for producing multiple PDFs: https://stackoverflow.com/questions/30422008/r-knitr-pdf-is-there-a-posssibility-to-automatically-save-pdf-reports-generate
+
+options(knitr.kable.NA = '')
+```
+
+## Boundary Issues
+
+
+```{r boundary, echo=FALSE}
+#Report by Site
+SiteB_table <- SiteB %>%
+  rename(Treatment = Treat_Desc) %>%
+  filter(!is.na(Site)) %>%
+  select(2:(length(SiteB)-1))
+  
+ # SiteB[2:(length(SiteB))]
+#SiteB_table <- Filter(function(x)!all(is.na(x)), SiteB_table)
+#ifelse(!is.na(SiteB_table), kable(SiteB_table, row.names = NULL),)
+kable(SiteB_table)
+```
+
+## Channel Issues
+
+```{r channel, echo=FALSE}
+SiteC_table <- SiteC %>%
+  rename(Treatment = Treat_Desc) %>%
+  filter(!is.na(Site)) %>%
+  select(2:(length(SiteC)-1)) 
+
+# SiteC_table <- SiteC[2:(length(SiteC))]
+# SiteC_table <- Filter(function(x)!all(is.na(x)), SiteC_table)
+kable(SiteC_table)
+```
+
+## Vegetation Issues
+
+```{r vegetation, echo=FALSE}
+SiteV_table <- SiteV %>%
+  rename(Treatment = Treat_Desc) %>%
+  filter(!is.na(Site)) %>%
+  select(2:(length(SiteV)-1)) 
+
+# SiteV_table <- SiteV[2:(length(SiteV))]
+# SiteV_table <- Filter(function(x)!all(is.na(x)), SiteV_table)
+kable(SiteV_table)
+```
+
+## Weed Issues
+
+```{r weeds, echo=FALSE}
+SiteW_table <- SiteW %>%
+  rename(Treatment = Treat_Desc) %>%
+  filter(!is.na(Site)) %>%
+  select(2:(length(SiteW)-1)) 
+
+# SiteW_table <- SiteW[2:(length(SiteW))]
+# SiteW_table <- Filter(function(x)!all(is.na(x)), SiteW_table)
+kable(SiteW_table)
+```
+
+## Miscellaneous Issues
+
+```{r misc, echo=FALSE}
+SiteM_table <- SiteM %>%
+  rename(Treatment = Treat_Desc) %>%
+  filter(!is.na(Site)) %>%
+  select(2:(length(SiteM)-1)) 
+
+# SiteM_table <- SiteM[1:(length(SiteM))]
+# SiteM_table <- Filter(function(x)!all(is.na(x)), SiteM_table)
+kable(SiteM)
+```
+
+

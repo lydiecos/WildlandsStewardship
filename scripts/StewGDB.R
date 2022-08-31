@@ -15,10 +15,11 @@ library(rgeos)
 library(rgdal)
 library(sf)
 library(dplyr)
+library(rmarkdown)
 library(arcgisbinding)
 arc.check_product()
 
-# Check you are logged in to AGOL
+# Check you are logged in to Arc
 arc.check_portal()
 # (if not, go log in!)
 
@@ -44,12 +45,6 @@ RevisedArea <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3H
 MngActionLine <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/5"))
 MngActionArea <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/6"))
 MngActionPoint <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/7"))
-
-# Extract site names for each data type
-site_names_pt <- data.frame(sort(unique(trimws(Point$Site))))
-site_names_ln <- data.frame(sort(unique(trimws(Line$Site))))
-site_names_poly <- data.frame(sort(unique(trimws(Poly$Site))))
-
 
 
 #### POLYGON DATA ####
@@ -221,39 +216,67 @@ Boundary <- Issue_Mgmt_All %>%
   filter(Subtype == c("CE Encroachment", "Boundary Issue")) %>%
   select(Site, Year, Issue, Issue_Desc, Treated, Treat_Desc, Resolved, 
          Lead_Steward) %>%
-  arrange(Site, Year, Treated)
+  arrange(Site, desc(Year), desc(Treated))
 
 Channel <- Issue_Mgmt_All %>%
   filter(Subtype == c("Needs Livestakes", "Channel Stability/Erosion", 
                       "Failed Structure")) %>%
   select(Site, Year, Subtype, Issue, Issue_Desc, Treated, Treat_Desc, Resolved,
-         Lead_steward) %>%
-  arrange(Site, Year, Treated)
+         Lead_Steward) %>%
+  arrange(Site, desc(Year), desc(Treated))
+
+Vegetation <- Issue_Mgmt_All %>% 
+  filter(Subtype == "Vegetation Issue") %>%
+  select(Site, Year, Issue, Issue_Desc, Percent_CoverAffected_Veg, Treated,
+         Treat_Desc, Treat_Method_1, Resolved,
+         Lead_Steward) %>%
+  arrange(Site, desc(Year), desc(Treated))
+
+Weed <- Issue_Mgmt_All %>%
+  filter(Subtype == c("Weed Occurrence", "In-Stream Vegetation")) %>%
+  select(Site, Year, InvSpecies_1, InvSpecies_2, InvSpecies_3, 
+         Issue_Desc, Treat_Desc, Treat_Method_1, TreatDate,
+         Percent_CntrlEffective_, Resolved, Lead_Steward) %>%
+  arrange(Site, desc(Year), InvSpecies_1)
 
 Misc <- Issue_Mgmt_All %>% 
   filter(Subtype == c("Misc", "Beaver Dam", "Soil Sample")) %>%
   select(Site, Year, Subtype, Issue_Desc, Issue_LocationOrFeature, Treated, 
          Treat_Desc, Resolved, Lead_Steward) %>%
-  arrange(Site, Year, Treated)
+  arrange(Site, desc(Year), desc(Treated))
 
-Vegetation <- Issue_Mgmt_All %>% 
-  filter(Subtype == "Vegetation Issue") %>%
-  select(Site, Year, Issue, Issue_Desc, Percent_CoverAffected_Veg, Treated,
-         Treat_Desc, Treat_Method_1, Chemical_1, Resolved,
-         Lead_Steward) %>%
-  arrange(Site, Year, Treated)
 
-Weed <- Issue_Mgmt_All %>%
-  filter(Subtype == c("Weed Occurrence", "In-Stream Vegetation")) %>%
-  select(Site, Year, InvSpecies_1, InvSpecies_2, InvSpecies_3, InvSpecies_4, 
-         InvSpecies_5, Issue_Desc, Treat_Desc, Treat_Method_1, 
-         Chemical_1, Treat_Method_2, Chemical_2, TreatDate,
-         Percent_CntrlEffective_, Resolved, Lead_Steward) %>%
-  arrange(Site, Year, InvSpecies_1)
+### Create PDFs
 
+# It is necessary to install TinyTeX (or perhaps MIKTEX) before these will work
+# tinytex::install_tinytex
+
+# Loop through Lead Stewards
+# Sorting by site makes more sense
+for (user in unique(Issue_Mgmt_All$Lead_Steward)){
+  LeadStewB <- Boundary[Boundary$Lead_Steward == user,]
+  LeadStewC <- Channel[Channel$Lead_Steward == user,]
+  LeadStewV <- Vegetation[Vegetation$Lead_Steward == user,]
+  LeadStewW <- Weed[Weed$Lead_Steward == user,]
+  LeadStewM <- Misc[Misc$Lead_Steward == user,]
+  render("./scripts/StewGDB_Export.Rmd",
+         output_file = paste0('../reports/bySteward/report.', user, '.pdf'))
+}
+
+# Loop through sites
+for (s in unique(Issue_Mgmt_All$Site)){
+  SiteAll <- Issue_Mgmt_All[Issue_Mgmt_All$Site == s,]
+  SiteB <- Boundary[Boundary$Site == s,]
+  SiteC <- Channel[Channel$Site == s,]
+  SiteV <- Vegetation[Vegetation$Site == s,]
+  SiteW <- Weed[Weed$Site == s,]
+  SiteM <- Misc[Misc$Site == s,]
+  render("./scripts/StewGDB_sites.Rmd", 
+         output_file = paste0('../reports/bySite/report.', s, '.pdf'))
+}
 
 # To do:
-# Finish sorting by issue
 # Export to PDF by site or Steward
+# Add Lead Scientist column and export to PDF
 # Once tables are split by site or steward, filter to remove any blank columns
 # Explore exporting shapefiles for each site
