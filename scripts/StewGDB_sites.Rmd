@@ -25,12 +25,13 @@ options(knitr.kable.NA = '')
 SiteB_table <- SiteB %>%
   rename(Treatment = Treat_Desc) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteB)-1))
+  select(2:(length(SiteB)-2)) %>%
+  discard(~all(is.na(.) | . == ""))
   
  # SiteB[2:(length(SiteB))]
 #SiteB_table <- Filter(function(x)!all(is.na(x)), SiteB_table)
 #ifelse(!is.na(SiteB_table), kable(SiteB_table, row.names = NULL),)
-kable(SiteB_table)
+kable(SiteB_table, row.names = FALSE)
 ```
 
 ## Channel Issues
@@ -39,37 +40,45 @@ kable(SiteB_table)
 SiteC_table <- SiteC %>%
   rename(Treatment = Treat_Desc) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteC)-1)) 
+  select(2:(length(SiteC)-2)) %>%
+  discard(~all(is.na(.) | . == "")) 
 
 # SiteC_table <- SiteC[2:(length(SiteC))]
 # SiteC_table <- Filter(function(x)!all(is.na(x)), SiteC_table)
-kable(SiteC_table)
+kable(SiteC_table, row.names = FALSE)
 ```
 
 ## Vegetation Issues
 
 ```{r vegetation, echo=FALSE}
 SiteV_table <- SiteV %>%
-  rename(Treatment = Treat_Desc) %>%
+  rename(Treatment = Treat_Desc, 
+         Pct_Cov = Percent_CoverAffected_Veg) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteV)-1)) 
+  select(2:(length(SiteV)-2)) %>%
+  discard(~all(is.na(.) | . == "")) 
 
 # SiteV_table <- SiteV[2:(length(SiteV))]
 # SiteV_table <- Filter(function(x)!all(is.na(x)), SiteV_table)
-kable(SiteV_table)
+kable(SiteV_table, row.names = FALSE)
 ```
 
 ## Weed Issues
 
 ```{r weeds, echo=FALSE}
 SiteW_table <- SiteW %>%
-  rename(Treatment = Treat_Desc) %>%
+  rename(Species1 = InvSpecies_1, 
+         Species2 = InvSpecies_2, 
+         Issue = Issue_Desc,
+         Treatment = Treat_Desc,
+         Method = Treat_Method_1) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteW)-1)) 
+  select(2:(length(SiteW)-2)) %>%
+  discard(~all(is.na(.) | . == ""))
 
 # SiteW_table <- SiteW[2:(length(SiteW))]
 # SiteW_table <- Filter(function(x)!all(is.na(x)), SiteW_table)
-kable(SiteW_table)
+kable(SiteW_table, row.names = FALSE)
 ```
 
 ## Miscellaneous Issues
@@ -78,11 +87,12 @@ kable(SiteW_table)
 SiteM_table <- SiteM %>%
   rename(Treatment = Treat_Desc) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteM)-1)) 
+  select(2:(length(SiteM)-2)) %>%
+  discard(~all(is.na(.) | . == "")) 
 
 # SiteM_table <- SiteM[1:(length(SiteM))]
 # SiteM_table <- Filter(function(x)!all(is.na(x)), SiteM_table)
-kable(SiteM)
+kable(SiteM_table, row.names = FALSE)
 ```
 
 

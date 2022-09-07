@@ -234,9 +234,10 @@ Vegetation <- Issue_Mgmt_All %>%
 
 Weed <- Issue_Mgmt_All %>%
   filter(Subtype == c("Weed Occurrence", "In-Stream Vegetation")) %>%
-  select(Site, Year, InvSpecies_1, InvSpecies_2, InvSpecies_3, 
+  select(Site, Year, InvSpecies_1, InvSpecies_2,
          Issue_Desc, Treat_Desc, Treat_Method_1, TreatDate,
-         Percent_CntrlEffective_, Resolved, Lead_Steward) %>%
+         Resolved, Lead_Steward) %>%
+  mutate(TreatDate = format(TreatDate, "%m/%Y")) %>%
   arrange(Site, desc(Year), InvSpecies_1)
 
 Misc <- Issue_Mgmt_All %>% 
@@ -252,16 +253,16 @@ Misc <- Issue_Mgmt_All %>%
 # tinytex::install_tinytex
 
 # Loop through Lead Stewards
-# Sorting by site makes more sense
-for (user in unique(Issue_Mgmt_All$Lead_Steward)){
-  LeadStewB <- Boundary[Boundary$Lead_Steward == user,]
-  LeadStewC <- Channel[Channel$Lead_Steward == user,]
-  LeadStewV <- Vegetation[Vegetation$Lead_Steward == user,]
-  LeadStewW <- Weed[Weed$Lead_Steward == user,]
-  LeadStewM <- Misc[Misc$Lead_Steward == user,]
-  render("./scripts/StewGDB_Export.Rmd",
-         output_file = paste0('../reports/bySteward/report.', user, '.pdf'))
-}
+# Sorting by site makes more sense - don't bother running this one
+# for (user in unique(Issue_Mgmt_All$Lead_Steward)){
+#   LeadStewB <- Boundary[Boundary$Lead_Steward == user,]
+#   LeadStewC <- Channel[Channel$Lead_Steward == user,]
+#   LeadStewV <- Vegetation[Vegetation$Lead_Steward == user,]
+#   LeadStewW <- Weed[Weed$Lead_Steward == user,]
+#   LeadStewM <- Misc[Misc$Lead_Steward == user,]
+#   render("./scripts/StewGDB_Export.Rmd",
+#          output_file = paste0('../reports/bySteward/report.', user, '.pdf'))
+# }
 
 # Loop through sites
 for (s in unique(Issue_Mgmt_All$Site)){
@@ -276,7 +277,7 @@ for (s in unique(Issue_Mgmt_All$Site)){
 }
 
 # To do:
-# Export to PDF by site or Steward
-# Add Lead Scientist column and export to PDF
-# Once tables are split by site or steward, filter to remove any blank columns
+# Work on further optimization of table displays
+# Add Lead Scientist and PM info to titles of PDFs
+# Explore adding maps to PDFs
 # Explore exporting shapefiles for each site

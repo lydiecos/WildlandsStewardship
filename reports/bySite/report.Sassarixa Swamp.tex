@@ -1,0 +1,186 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Stewardship for Sassarixa Swamp},
+  pdfauthor={Lead Steward: Andrew},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Stewardship for Sassarixa Swamp}
+\author{Lead Steward: Andrew}
+\date{2022-09-07}
+
+\begin{document}
+\maketitle
+
+\hypertarget{boundary-issues}{%
+\subsection{Boundary Issues}\label{boundary-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\hypertarget{channel-issues}{%
+\subsection{Channel Issues}\label{channel-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\hypertarget{vegetation-issues}{%
+\subsection{Vegetation Issues}\label{vegetation-issues}}
+
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0510}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.3265}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1633}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0816}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0816}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2959}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
+Year
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Issue
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Issue\_Desc
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pct\_Cov
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Treated
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Treatment
+\end{minipage} \\
+\midrule()
+\endhead
+2021 & Bare Areas \& Low Stem Density & & 26-50\% & Yes & Warm Season
+Cover Crop \\
+2021 & Bare Areas & & 26-50\% & Yes & Cover crop \\
+2021 & Bare Areas & & 26-50\% & Yes & Cover crop: little blue stem \\
+2021 & Bare Areas \& Low Stem Density & Sandy bare area & 76-100\% & Yes
+& Winter Cover Crop Seeding \\
+2021 & Bare Areas & & 26-50\% & Yes & Warm Season Cover Crops \\
+2021 & Low Stem Vigor/Height \& Density & & 51-75\% & No & Planted \\
+2021 & Low Stem Vigor/Height \& Density & & 51-75\% & No & Ring
+sprays \\
+2021 & & & & No & Planted \\
+2021 & & & & No & Ring sprays \\
+2021 & Bare Areas & Bare area & 51-75\% & No & Cover crop \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{weed-issues}{%
+\subsection{Weed Issues}\label{weed-issues}}
+
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0311}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0932}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1304}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2857}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.3354}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0621}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0621}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
+Year
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Species1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Species2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Issue
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Treatment
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+TreatDate
+\end{minipage} \\
+\midrule()
+\endhead
+2021 & Chinese Privet & Trifoliate Orange & & & & \\
+2021 & Kudzu & Japanese Honeysuckle & Invasive weeds and vines in thin
+row of trees & Kudzu crown removal, backpack spraying, and cut stump &
+Hand Pull & 06/2022 \\
+2021 & Princess Tree & & & Cut Stump & & \\
+2021 & & & Murdania in stream and on banks & Foliar Spray 4\% Round Up
+Custom & & 07/2021 \\
+2021 & & & Murdania in stream and on banks & Foliar Spray & & 07/2021 \\
+2021 & & & Murdania in stream and on banks & Foliar Spray & & 07/2021 \\
+2021 & & & Murdania in stream and on bank & Foliar Spray & & 09/2021 \\
+2021 & & & Murdania in stream and on bank & Foliar Spray & & 07/2021 \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{miscellaneous-issues}{%
+\subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\end{document}
