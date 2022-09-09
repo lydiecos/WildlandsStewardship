@@ -214,23 +214,23 @@ write.csv("./data/Issue_Mgmt_All")
 
 Boundary <- Issue_Mgmt_All %>%
   filter(Subtype == c("CE Encroachment", "Boundary Issue")) %>%
-  select(Site, Year, Issue, Issue_Desc, Treated, Treat_Desc, Resolved, 
+  select(Site, Year, Issue, Issue_Desc, Treat_Desc, Resolved, 
          Lead_Steward) %>%
-  arrange(Site, desc(Year), desc(Treated))
+  arrange(Site, desc(Year), Treat_Desc)
 
 Channel <- Issue_Mgmt_All %>%
   filter(Subtype == c("Needs Livestakes", "Channel Stability/Erosion", 
                       "Failed Structure")) %>%
-  select(Site, Year, Subtype, Issue, Issue_Desc, Treated, Treat_Desc, Resolved,
+  select(Site, Year, Subtype, Issue, Issue_Desc, Treat_Desc, Resolved,
          Lead_Steward) %>%
-  arrange(Site, desc(Year), desc(Treated))
+  arrange(Site, desc(Year), Treat_Desc)
 
 Vegetation <- Issue_Mgmt_All %>% 
   filter(Subtype == "Vegetation Issue") %>%
-  select(Site, Year, Issue, Issue_Desc, Percent_CoverAffected_Veg, Treated,
+  select(Site, Year, Issue, Issue_Desc,
          Treat_Desc, Treat_Method_1, Resolved,
          Lead_Steward) %>%
-  arrange(Site, desc(Year), desc(Treated))
+  arrange(Site, desc(Year), Treat_Desc)
 
 Weed <- Issue_Mgmt_All %>%
   filter(Subtype == c("Weed Occurrence", "In-Stream Vegetation")) %>%
@@ -242,12 +242,12 @@ Weed <- Issue_Mgmt_All %>%
 
 Misc <- Issue_Mgmt_All %>% 
   filter(Subtype == c("Misc", "Beaver Dam", "Soil Sample")) %>%
-  select(Site, Year, Subtype, Issue_Desc, Issue_LocationOrFeature, Treated, 
+  select(Site, Year, Subtype, Issue_Desc, Issue_LocationOrFeature, 
          Treat_Desc, Resolved, Lead_Steward) %>%
-  arrange(Site, desc(Year), desc(Treated))
+  arrange(Site, desc(Year), Treat_Desc)
 
 
-### Create PDFs
+#### Create PDFs ####
 
 # It is necessary to install TinyTeX (or perhaps MIKTEX) before these will work
 # tinytex::install_tinytex
@@ -273,8 +273,23 @@ for (s in unique(Issue_Mgmt_All$Site)){
   SiteW <- Weed[Weed$Site == s,]
   SiteM <- Misc[Misc$Site == s,]
   render("./scripts/StewGDB_sites.Rmd", 
-         output_file = paste0('../reports/bySite/report.', s, '.pdf'))
+         output_file = paste0('../reports/PDFbySite/report.', s, '.pdf'))
 }
+
+
+#### Create CSVs ####
+
+for (s in unique(Issue_Mgmt_All$Site)){
+  SiteAll <- Issue_Mgmt_All %>%
+    filter(Site == s & !is.na(Site)) %>%
+    arrange(desc(Year), Subtype) %>%
+    relocate(Site, .before = GlobalID) %>%
+    relocate(Year, .before = GlobalID) %>%
+    relocate(Subtype, .before = GlobalID) %>%
+    relocate(GlobalID, .after = Lead_Steward)
+  write.csv(SiteAll, paste0('./reports/Spreadsheets/', s, '.csv'))
+}
+
 
 # To do:
 # Work on further optimization of table displays

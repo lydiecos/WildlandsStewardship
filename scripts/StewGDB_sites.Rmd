@@ -3,6 +3,7 @@ title: "Stewardship for `r s`"
 author: "Lead Steward: `r first(SiteAll$Lead_Steward)`"
 date: "`r Sys.Date()`"
 output: pdf_document
+classoption: landscape
 ---
 
 ```{r setup, include=FALSE}
@@ -28,9 +29,7 @@ SiteB_table <- SiteB %>%
   select(2:(length(SiteB)-2)) %>%
   discard(~all(is.na(.) | . == ""))
   
- # SiteB[2:(length(SiteB))]
-#SiteB_table <- Filter(function(x)!all(is.na(x)), SiteB_table)
-#ifelse(!is.na(SiteB_table), kable(SiteB_table, row.names = NULL),)
+#Create table
 kable(SiteB_table, row.names = FALSE)
 ```
 
@@ -43,8 +42,7 @@ SiteC_table <- SiteC %>%
   select(2:(length(SiteC)-2)) %>%
   discard(~all(is.na(.) | . == "")) 
 
-# SiteC_table <- SiteC[2:(length(SiteC))]
-# SiteC_table <- Filter(function(x)!all(is.na(x)), SiteC_table)
+
 kable(SiteC_table, row.names = FALSE)
 ```
 
@@ -52,14 +50,12 @@ kable(SiteC_table, row.names = FALSE)
 
 ```{r vegetation, echo=FALSE}
 SiteV_table <- SiteV %>%
-  rename(Treatment = Treat_Desc, 
-         Pct_Cov = Percent_CoverAffected_Veg) %>%
+  rename(Treatment = Treat_Desc) %>%
   filter(!is.na(Site)) %>%
   select(2:(length(SiteV)-2)) %>%
   discard(~all(is.na(.) | . == "")) 
 
-# SiteV_table <- SiteV[2:(length(SiteV))]
-# SiteV_table <- Filter(function(x)!all(is.na(x)), SiteV_table)
+
 kable(SiteV_table, row.names = FALSE)
 ```
 
@@ -76,8 +72,7 @@ SiteW_table <- SiteW %>%
   select(2:(length(SiteW)-2)) %>%
   discard(~all(is.na(.) | . == ""))
 
-# SiteW_table <- SiteW[2:(length(SiteW))]
-# SiteW_table <- Filter(function(x)!all(is.na(x)), SiteW_table)
+
 kable(SiteW_table, row.names = FALSE)
 ```
 
@@ -90,8 +85,7 @@ SiteM_table <- SiteM %>%
   select(2:(length(SiteM)-2)) %>%
   discard(~all(is.na(.) | . == "")) 
 
-# SiteM_table <- SiteM[1:(length(SiteM))]
-# SiteM_table <- Filter(function(x)!all(is.na(x)), SiteM_table)
+
 kable(SiteM_table, row.names = FALSE)
 ```
 

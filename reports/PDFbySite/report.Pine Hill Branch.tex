@@ -1,0 +1,161 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  landscape]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Stewardship for Pine Hill Branch},
+  pdfauthor={Lead Steward: Andrew},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Stewardship for Pine Hill Branch}
+\author{Lead Steward: Andrew}
+\date{2022-09-09}
+
+\begin{document}
+\maketitle
+
+\hypertarget{boundary-issues}{%
+\subsection{Boundary Issues}\label{boundary-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\hypertarget{channel-issues}{%
+\subsection{Channel Issues}\label{channel-issues}}
+
+\begin{longtable}[]{@{}rlll@{}}
+\toprule()
+Year & Subtype & Issue & Issue\_Desc \\
+\midrule()
+\endhead
+2022 & Channel Stability/Erosion & Other & Sills failing \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{vegetation-issues}{%
+\subsection{Vegetation Issues}\label{vegetation-issues}}
+
+\begin{longtable}[]{@{}rll@{}}
+\toprule()
+Year & Issue & Treatment \\
+\midrule()
+\endhead
+2022 & Low Stem Vigor/Height & Ring sprays \\
+2021 & Low Stem Vigor/Height & Ring sprays \\
+& Low Stem Vigor/Height & \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{weed-issues}{%
+\subsection{Weed Issues}\label{weed-issues}}
+
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0490}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2059}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1569}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2059}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1373}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1471}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0980}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
+Year
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Species1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Species2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Issue
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Treatment
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+TreatDate
+\end{minipage} \\
+\midrule()
+\endhead
+2022 & Kudzu & & & Sprayed kudzu & Backpack Spray & 09/2022 \\
+2021 & Japanese Honeysuckle & Chinese Privet & & TOH treatment & Cut
+Stump & 07/2022 \\
+2021 & Japanese Honeysuckle & Multiflora Rose & NNIS in fescue areas & &
+& \\
+2021 & Japanese Honeysuckle & Chinese Privet & & Foliar Spray & Backpack
+Spray & 06/2021 \\
+2021 & Tree Of Heaven & & & & & \\
+\bottomrule()
+\end{longtable}
+
+\hypertarget{miscellaneous-issues}{%
+\subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\end{document}
