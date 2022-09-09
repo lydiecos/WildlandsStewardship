@@ -34,6 +34,16 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -73,60 +83,52 @@
 \hypertarget{boundary-issues}{%
 \subsection{Boundary Issues}\label{boundary-issues}}
 
+\begin{longtable}[]{@{}r@{}}
+\toprule()
+Year \\
+\midrule()
+\endhead
+2022 \\
+\bottomrule()
+\end{longtable}
+
 \hypertarget{channel-issues}{%
 \subsection{Channel Issues}\label{channel-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\newpage
 
 \hypertarget{vegetation-issues}{%
 \subsection{Vegetation Issues}\label{vegetation-issues}}
 
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\newpage
+
 \hypertarget{weed-issues}{%
 \subsection{Weed Issues}\label{weed-issues}}
 
-Year
-
-Species1
-
-Treatment
-
-2021
-
-Johnson Grass
-
-Johnson Grass ring spray
-
-2021
-
-Johnson Grass
-
-Johnson Grass ring spray
-
-2021
-
-Johnson Grass
-
-Johnson Grass ring spray
-
-2021
-
-Johnson Grass
-
-Johnson Grass ring spray
-
-2021
-
-Johnson Grass
-
-Johnson Grass ring spray
-
-2021
-
-Johnson Grass
-
-Johnson Grass ring sprays
-
-Tree Of Heaven
+\begin{longtable}[]{@{}rll@{}}
+\toprule()
+Year & Species1 & Treatment \\
+\midrule()
+\endhead
+2021 & Johnson Grass & Johnson Grass ring spray \\
+2021 & Johnson Grass & Johnson Grass ring spray \\
+2021 & Johnson Grass & Johnson Grass ring spray \\
+2021 & Johnson Grass & Johnson Grass ring spray \\
+2021 & Johnson Grass & Johnson Grass ring spray \\
+2021 & Johnson Grass & Johnson Grass ring sprays \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{miscellaneous-issues}{%
 \subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
 \end{document}

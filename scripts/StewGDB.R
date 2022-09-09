@@ -228,8 +228,9 @@ Channel <- Issue_Mgmt_All %>%
 Vegetation <- Issue_Mgmt_All %>% 
   filter(Subtype == "Vegetation Issue") %>%
   select(Site, Year, Issue, Issue_Desc,
-         Treat_Desc, Treat_Method_1, Resolved,
+         Treat_Desc, Treat_Method_1, TreatDate, Resolved,
          Lead_Steward) %>%
+  mutate(TreatDate = format(TreatDate, "%m/%Y")) %>%
   arrange(Site, desc(Year), Treat_Desc)
 
 Weed <- Issue_Mgmt_All %>%

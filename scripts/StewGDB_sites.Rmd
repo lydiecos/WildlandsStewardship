@@ -9,6 +9,7 @@ classoption: landscape
 ```{r setup, include=FALSE}
 library(knitr)
 library(tidyverse)
+library(flextable)
 opts_chunk$set(echo = TRUE)
 
 # text to reinsert in title: SiteB$Site[1]
@@ -37,7 +38,8 @@ kable(SiteB_table, row.names = FALSE)
 
 ```{r channel, echo=FALSE}
 SiteC_table <- SiteC %>%
-  rename(Treatment = Treat_Desc) %>%
+  rename(Description = Issue_Desc,
+         Treatment = Treat_Desc) %>%
   filter(!is.na(Site)) %>%
   select(2:(length(SiteC)-2)) %>%
   discard(~all(is.na(.) | . == "")) 
@@ -46,19 +48,27 @@ SiteC_table <- SiteC %>%
 kable(SiteC_table, row.names = FALSE)
 ```
 
+\newpage
 ## Vegetation Issues
 
 ```{r vegetation, echo=FALSE}
 SiteV_table <- SiteV %>%
-  rename(Treatment = Treat_Desc) %>%
+  rename(Description = Issue_Desc,
+         Treatment = Treat_Desc,
+         Method = Treat_Method_1) %>%
   filter(!is.na(Site)) %>%
   select(2:(length(SiteV)-2)) %>%
   discard(~all(is.na(.) | . == "")) 
 
 
 kable(SiteV_table, row.names = FALSE)
+# Alternate table method that allows modification of column width
+# (but would require other editing)
+# flextable(SiteV_table) %>%
+#   width(j = c(3, 4), width = c(2,1), unit = "in")
 ```
 
+\newpage
 ## Weed Issues
 
 ```{r weeds, echo=FALSE}

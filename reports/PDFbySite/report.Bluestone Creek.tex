@@ -34,6 +34,16 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -73,94 +83,67 @@
 \hypertarget{boundary-issues}{%
 \subsection{Boundary Issues}\label{boundary-issues}}
 
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
 \hypertarget{channel-issues}{%
 \subsection{Channel Issues}\label{channel-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\newpage
 
 \hypertarget{vegetation-issues}{%
 \subsection{Vegetation Issues}\label{vegetation-issues}}
 
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\newpage
+
 \hypertarget{weed-issues}{%
 \subsection{Weed Issues}\label{weed-issues}}
 
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0581}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2442}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2442}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.4535}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
 Year
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Species1
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Species2
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Issue
-
-2019
-
-Chinese Privet
-
-Japanese Honeysuckle
-
-2019
-
-Chinese Privet
-
-Japanese Honeysuckle
-
-2019
-
-Creeping Charlie
-
-2019
-
-Japanese Honeysuckle
-
-Beefsteak Plant
-
-2019
-
-Japanese Honeysuckle
-
-2019
-
-Japanese Honeysuckle
-
-2019
-
-Marsh Dewflower
-
-2019
-
-Marsh Dewflower
-
-2019
-
-Multiflora Rose
-
-2019
-
-Multiflora Rose
-
-2019
-
-Multiflora Rose
-
-2019
-
-Multiflora Rose
-
-Chinese Privet
-
-2019
-
-Multiflora Rose
-
-2019
-
-Multiflora Rose
-
-2019
-
-OTHER
-
-Creeping Jenny (Lysimachia nummularia)
+\end{minipage} \\
+\midrule()
+\endhead
+2019 & Chinese Privet & Japanese Honeysuckle & \\
+2019 & Chinese Privet & Japanese Honeysuckle & \\
+2019 & Creeping Charlie & & \\
+2019 & Japanese Honeysuckle & Beefsteak Plant & \\
+2019 & Japanese Honeysuckle & & \\
+2019 & Japanese Honeysuckle & & \\
+2019 & Marsh Dewflower & & \\
+2019 & Marsh Dewflower & & \\
+2019 & Multiflora Rose & & \\
+2019 & Multiflora Rose & & \\
+2019 & Multiflora Rose & & \\
+2019 & Multiflora Rose & Chinese Privet & \\
+2019 & Multiflora Rose & & \\
+2019 & Multiflora Rose & & \\
+2019 & OTHER & & Creeping Jenny (Lysimachia nummularia) \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{miscellaneous-issues}{%
 \subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
 \end{document}

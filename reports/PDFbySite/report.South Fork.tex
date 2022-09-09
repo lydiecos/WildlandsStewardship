@@ -34,6 +34,16 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -73,102 +83,75 @@
 \hypertarget{boundary-issues}{%
 \subsection{Boundary Issues}\label{boundary-issues}}
 
-Year
-
-Issue
-
-Issue\_Desc
-
-2021
-
-Cattle
-
-2021
-
-Other
-
-Need sign at corner UP2S
+\begin{longtable}[]{@{}rl@{}}
+\toprule()
+Year & Issue \\
+\midrule()
+\endhead
+2021 & Cattle \\
+2021 & Cattle \\
+2021 & Cattle \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{channel-issues}{%
 \subsection{Channel Issues}\label{channel-issues}}
 
-Year
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
-Subtype
-
-Issue
-
-Issue\_Desc
-
-2022
-
-Channel Stability/Erosion
-
-Erosion\_Scour
-
-Sills failing
+\newpage
 
 \hypertarget{vegetation-issues}{%
 \subsection{Vegetation Issues}\label{vegetation-issues}}
 
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\newpage
+
 \hypertarget{weed-issues}{%
 \subsection{Weed Issues}\label{weed-issues}}
 
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0581}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1744}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1744}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2442}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1163}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1163}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1163}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
 Year
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Species1
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Species2
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Issue
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Treatment
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Method
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 TreatDate
-
-2022
-
-Tree Of Heaven
-
-2021
-
-Chinese Privet
-
-Tree Of Heaven
-
-Cut Stump
-
-Cut Stump
-
-12/2021
-
-2021
-
-Murdania in riffles
-
-2020
-
-Chinese Privet
-
-Cut Stump
-
-12/2021
-
-2019
-
-Chinese Privet
-
-Chinese privet - few
-
-Cut Stump
-
-Cut Stump
-
-12/2021
+\end{minipage} \\
+\midrule()
+\endhead
+2022 & Tree Of Heaven & & & & & \\
+2021 & Chinese Privet & Tree Of Heaven & & Cut Stump & Cut Stump &
+12/2021 \\
+2020 & Chinese Privet & & & Cut Stump & & 12/2021 \\
+2019 & Chinese Privet & & Chinese privet - few & Cut Stump & Cut Stump &
+12/2021 \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{miscellaneous-issues}{%
 \subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
+
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
 \end{document}

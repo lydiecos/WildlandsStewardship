@@ -34,6 +34,16 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -58,13 +68,13 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={Stewardship for Dudley Pond},
-  pdfauthor={Lead Steward: Andrea},
+  pdftitle={Stewardship for Sandy Branch},
+  pdfauthor={Lead Steward: Neil},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{Stewardship for Dudley Pond}
-\author{Lead Steward: Andrea}
+\title{Stewardship for Sandy Branch}
+\author{Lead Steward: Neil}
 \date{2022-09-09}
 
 \begin{document}
@@ -73,153 +83,64 @@
 \hypertarget{boundary-issues}{%
 \subsection{Boundary Issues}\label{boundary-issues}}
 
-Year
-
-Issue
-
-Issue\_Desc
-
-Treatment
-
-2022
-
-Mowing
-
-Mowed around surveyors sign. Been mowing for many years. Installed
-polytape.
-
-Steve Lawrence said he would talk to neighbor about not mowing.
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
 \hypertarget{channel-issues}{%
 \subsection{Channel Issues}\label{channel-issues}}
 
-Year
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
-Subtype
-
-Issue
-
-2022
-
-Channel Stability/Erosion
-
-Slumping\_Settling
+\newpage
 
 \hypertarget{vegetation-issues}{%
 \subsection{Vegetation Issues}\label{vegetation-issues}}
 
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.0725}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3188}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.6087}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
 Year
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Issue
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} \\
+\midrule()
+\endhead
+2021 & Low Stem Vigor/Height & Tall pasture grasses/ ring sprays
+needed \\
+2021 & Low Stem Vigor/Height & \\
+2021 & Low Stem Vigor/Height & Tall pasture grasses/ ring sprays
+needed \\
+2021 & Low Stem Vigor/Height & Tall pasture grasses / ring sprays
+needed \\
+\bottomrule()
+\end{longtable}
 
-Issue\_Desc
-
-Treatment
-
-2021
-
-Bare Areas
-
-Pre-trees
-
-Added cover crop seed mix
-
-2021
-
-Bare Areas
-
-Bare or poorly performing forbs
-
-Added cover crop seed mix
-
-2021
-
-Bare Areas
-
-Bare area- no trees planted yet
-
-Added mix of oats, rye, millet, ladino clover and permanent (5\%)
-
-2021
-
-Bare Areas
-
-No trees planted yet. VP is worst area
-
-Spread 240 lbs of dolomitic lime and 200 lbs of Carbon Pro G.
-
-2021
-
-Bare Areas
-
-No trees planted yet. VP is worst area
-
-Spread 3 tons lime/A, a little fertilizer, and cover crop. Disked in.
-
-2021
-
-Bare Areas
-
-Bare area- no trees planted yet
-
-Spread lime and cover crop on left floodplain. Disked in.
-
-2021
-
-Bare Areas
-
-2021
-
-Bare Areas
-
-Haul rd. No trees planted yet SS03
-
-2021
-
-Bare Areas
-
-Haul rd
-
-2021
-
-Bare Areas
-
-Trees not planted yet
-
-2021
-
-Bare Areas
-
-Bare area- no trees planted yet
-
-2021
-
-Bare Areas
-
-Bare area- no trees planted yet
+\newpage
 
 \hypertarget{weed-issues}{%
 \subsection{Weed Issues}\label{weed-issues}}
 
+\begin{longtable}[]{@{}rll@{}}
+\toprule()
+Year & Species1 & Issue \\
+\midrule()
+\endhead
+2022 & Multiflora Rose & \\
+2022 & UNKNOWN & Cattails \\
+2021 & & Spraying needed \\
+\bottomrule()
+\end{longtable}
+
 \hypertarget{miscellaneous-issues}{%
 \subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
 
-Year
-
-Subtype
-
-Issue\_Desc
-
-2022
-
-Soil Sample
-
-DP09
-
-2021
-
-Soil Sample
-
-DP02
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
 \end{document}

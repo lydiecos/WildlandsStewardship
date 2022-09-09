@@ -34,6 +34,16 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -73,286 +83,138 @@
 \hypertarget{boundary-issues}{%
 \subsection{Boundary Issues}\label{boundary-issues}}
 
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
 \hypertarget{channel-issues}{%
 \subsection{Channel Issues}\label{channel-issues}}
 
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.0725}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3768}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.3768}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.1739}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
 Year
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Subtype
-
-Issue\_Desc
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Treatment
+\end{minipage} \\
+\midrule()
+\endhead
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2022 & Needs Livestakes & & \\
+2021 & Needs Livestakes & & Livestaking \\
+2021 & Needs Livestakes & & Livestaking \\
+2021 & Channel Stability/Erosion & Add live stakes and plugs & \\
+2021 & Needs Livestakes & & \\
+2021 & Channel Stability/Erosion & & \\
+2021 & Needs Livestakes & & \\
+2021 & Needs Livestakes & & \\
+2021 & Needs Livestakes & & \\
+2021 & Needs Livestakes & & \\
+2021 & Failed Structure & Bank scour & \\
+\bottomrule()
+\end{longtable}
 
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2022
-
-Needs Livestakes
-
-2021
-
-Needs Livestakes
-
-Livestaking
-
-2021
-
-Channel Stability/Erosion
-
-Add live stakes and plugs
-
-2021
-
-Needs Livestakes
-
-2021
-
-Channel Stability/Erosion
-
-2021
-
-Needs Livestakes
-
-2021
-
-Needs Livestakes
-
-2021
-
-Needs Livestakes
-
-2021
-
-Needs Livestakes
-
-2021
-
-Failed Structure
-
-Bank scour
+\newpage
 
 \hypertarget{vegetation-issues}{%
 \subsection{Vegetation Issues}\label{vegetation-issues}}
 
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\newpage
+
 \hypertarget{weed-issues}{%
 \subsection{Weed Issues}\label{weed-issues}}
 
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0373}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1343}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1119}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.3358}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1866}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1194}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0746}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
 Year
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Species1
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Species2
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Issue
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Treatment
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Method
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 TreatDate
-
-2022
-
-Chinese Privet
-
-2022
-
-Chinese Privet
-
-2022
-
-Chinese Privet
-
-2022
-
-Chinese Privet
-
-2022
-
-Japanese Hops
-
-Very small vines. Sam uprooted on 6/20/22
-
-2022
-
-Japanese Knotweed
-
-Small
-
-2022
-
-Kudzu
-
-2022
-
-Kudzu
-
-2022
-
-Kudzu
-
-2022
-
-Kudzu
-
-2022
-
-Kudzu
-
-2022
-
-Princess Tree
-
-Tree Of Heaven
-
-Two saplings
-
-Tree of Heaven treatment
-
-Hack and Squirt
-
-07/2022
-
-2022
-
-Cattails
-
-2021
-
-Autumn Olive
-
-2021
-
-Autumn Olive
-
-2021
-
-Autumn Olive
-
-2021
-
-Chinese Privet
-
-2021
-
-Chinese Privet
-
-2021
-
-Chinese Privet
-
-2021
-
-Elephant Ear
-
-2021
-
-Kudzu
-
-2021
-
-Kudzu
-
-Off site source. Monitor to keep off CE line
-
-2021
-
-Marsh Dewflower
-
-2021
-
-Marsh Dewflower
-
-2021
-
-Marsh Dewflower
-
-2021
-
-OTHER
-
-Cattails in stream
-
-2021
-
-Kudzu
-
-Water Primrose
+\end{minipage} \\
+\midrule()
+\endhead
+2022 & Chinese Privet & & & & & \\
+2022 & Chinese Privet & & & & & \\
+2022 & Chinese Privet & & & & & \\
+2022 & Chinese Privet & & & & & \\
+2022 & Japanese Hops & & Very small vines. Sam uprooted on 6/20/22 & &
+& \\
+2022 & Japanese Knotweed & & Small & & & \\
+2022 & Kudzu & & & & & \\
+2022 & Kudzu & & & & & \\
+2022 & Kudzu & & & & & \\
+2022 & Kudzu & & & & & \\
+2022 & Kudzu & & & & & \\
+2022 & Princess Tree & Tree Of Heaven & Two saplings & Tree of Heaven
+treatment & Hack and Squirt & 07/2022 \\
+2021 & Autumn Olive & & & & & \\
+2021 & Autumn Olive & & & & & \\
+2021 & Autumn Olive & & & & & \\
+2021 & Chinese Privet & & & & & \\
+2021 & Chinese Privet & & & & & \\
+2021 & Elephant Ear & & & & & \\
+2021 & Kudzu & & & & & \\
+2021 & Kudzu & & Off site source. Monitor to keep off CE line & & & \\
+2021 & Marsh Dewflower & & & & & \\
+2021 & Marsh Dewflower & & & & & \\
+2021 & Marsh Dewflower & & & & & \\
+2021 & OTHER & & Cattails in stream & & & \\
+& Kudzu & & & & & \\
+& Water Primrose & & & & & \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{miscellaneous-issues}{%
 \subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
 
-Year
-
-Subtype
-
-Issue\_Desc
-
-2022
-
-Misc
-
-Downed tree across channel
-
-2021
-
-Misc
-
-Floodplain jumping
+\begin{longtable}[]{@{}rll@{}}
+\toprule()
+Year & Subtype & Issue\_Desc \\
+\midrule()
+\endhead
+2022 & Misc & Downed tree across channel \\
+2021 & Misc & Floodplain jumping \\
+\bottomrule()
+\end{longtable}
 
 \end{document}

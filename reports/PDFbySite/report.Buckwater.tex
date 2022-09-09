@@ -34,6 +34,16 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -73,158 +83,228 @@
 \hypertarget{boundary-issues}{%
 \subsection{Boundary Issues}\label{boundary-issues}}
 
-\begin{tabular}{}
-\hline
-
-\hline
-\end{tabular}
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
 \hypertarget{channel-issues}{%
 \subsection{Channel Issues}\label{channel-issues}}
 
-\begin{tabular}{r|l|l|l}
-\hline
-Year & Subtype & Issue & Issue\_Desc\\
-\hline
-2022 & Channel Stability/Erosion &  & Sills require fixing\\
-\hline
-2021 & Needs Livestakes &  & No live stakes\\
-\hline
-2019 & Failed Structure &  & \\
-\hline
-2019 & Failed Structure & Failed/Not Functional & Large failed log sill. Piping around right side\\
-\hline
-2019 & Failed Structure &  & failed log sill. Water flowing under\\
-\hline
-\end{tabular}
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0282}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1469}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1243}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.4859}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2147}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
+Year
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Subtype
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Issue
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Treatment
+\end{minipage} \\
+\midrule()
+\endhead
+2021 & Needs Livestakes & & No live stakes & \\
+2020 & Channel Stability/Erosion & Erosion\_Scour & severely eroded
+outside bend after bedrock drop area. Repaired by WLC on July 14 2021 &
+Machine repair- installed boulder toe \\
+2019 & Failed Structure & & & \\
+2019 & Failed Structure & Failed/Not Functional & Large failed log sill.
+Piping around right side & \\
+2019 & Failed Structure & & failed log sill. Water flowing under & \\
+\bottomrule()
+\end{longtable}
+
+\newpage
 
 \hypertarget{vegetation-issues}{%
 \subsection{Vegetation Issues}\label{vegetation-issues}}
 
-\begin{tabular}{r|l|l|l|l}
-\hline
-Year & Issue & Issue\_Desc & Treatment & Treat\_Method\_1\\
-\hline
-2021 &  & Need tree release and some one gallon planting. Plan for planting \textasciitilde{}50 containers, ring sprays, blackberry release, and amendments & brush cut blackberry. & Backpack Spray\\
-\hline
-2021 & Bare Areas \& Low Stem Density & Continue seeding, amendments, and plant willow poles & Cover crop & \\
-\hline
-2021 &  & Need tree release and some one gallon planting. Plan for planting \textasciitilde{}50 containers, ring sprays, blackberry release, and amendments & follow up spray with 2.5\% triclopyr & \\
-\hline
-2021 & Bare Areas \& Low Stem Density & Continue seeding, amendments, and plant willow poles & heavily seeded bare areas in P2 cuts with millet & \\
-\hline
-2021 & Bare Areas \& Low Stem Density & Continue seeding, amendments, and plant willow poles & planted 325 new stems. Added soil amendment mix to planting holes for containers & \\
-\hline
-2021 & Low Stem Density & Dense tall fescue. Add 30 one gallons and ring spray & ring sprays & \\
-\hline
-2021 & Bare Areas \& Low Stem Density & Continue seeding, amendments, and plant willow poles & ring sprays- 2.5\% glyphosate solution & \\
-\hline
-2021 &  & Need tree release and some one gallon planting. Plan for planting \textasciitilde{}50 containers, ring sprays, blackberry release, and amendments & Weedeat blackberry around trees & Mow\\
-\hline
-2021 & Low Stem Density & Needs about 25 more trees and ring sprays. &  & \\
-\hline
-2021 & Low Stem Density & Old pond. Plant willows, elderberry, mulberry, and cottonwood. \textasciitilde{}25 stems. Add live stakes along streams &  & \\
-\hline
-2021 & Low Stem Density & Old field succession. Reduce sweet gum by 40\%. Plan for blackberry release, 25 one gallons, and ring sprays &  & \\
-\hline
-2021 & Low Stem Density & Needs 25 one gallons &  & \\
-\hline
-2021 & Low Stem Vigor/Height \& Density & Needs 20 one gallons. Add amendments now. Very few trees in veg plot &  & \\
-\hline
-2020 &  & Old field succession dominating area. Low planted stem density persists after tree plantings in early 2021 & 40 new bare root and 1-gallon containers planted- 300 stem/acre rate & \\
-\hline
-2020 &  & Old field succession dominating area. Low planted stem density persists after tree plantings in early 2021 & Cleared blackberry heavily competing with trees & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & Need replant- 150 stems/acre. 105 new stems. old pond- take soil sample & planted 105 new stems & \\
-\hline
-2020 & Low Stem Density & Needs trees. Dense tall fescue needs ring sprays & Planted 110 new bare roots and 1-gallons & \\
-\hline
-2020 &  & replant 250 stems/acre- 25 new stems. treat fescue & planted 25 stems & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 263 stems . treat dense tall fescue & planted 263 new stems & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & replant 150 stems/acre- 45 new stems. low groundcover. Few trees are low vigor & planted 45 new stems & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & Replant 200 stems/acre- 640 stems. dense tall fescue needs ring sprays & Planted 640 stems. Ring sprays & \\
-\hline
-2020 &  & replant 250 stems/acre- 25 new stems. treat fescue & ring sprays & \\
-\hline
-2020 & Low Stem Density & Needs trees. Dense tall fescue needs ring sprays & ring sprays & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & Replant. Needs 150 stems per acre. Needs ring sprays. One round of ring sprays was previously completed in early spring 2020 & ring sprays & \\
-\hline
-2020 & Low Stem Density & replant 250 stems/acre- 75 new stems. treat fescue & ring sprays & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 263 stems . treat dense tall fescue & ring sprays & \\
-\hline
-2020 &  & replant 250 stems/acre- 25 new stems. treat fescue & ring sprays & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & Replant. Needs 150 stems per acre. Needs ring sprays. One round of ring sprays was previously completed in early spring 2020 & Ring sprays & \\
-\hline
-2020 &  & Old field succession dominating area. Low planted stem density persists after tree plantings in early 2021 & ring sprays- 2.5\% glyphosate & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & Replant 200 stems/acre- 640 stems. dense tall fescue needs ring sprays & Ring sprays. All N half. Some S half & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 420 new stems. Poor soils & soil amendments & \\
-\hline
-2020 &  & replant 250 stems/acre- 25 new stems. treat fescue & tree planting & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & Replant. Needs 150 stems per acre. Needs ring sprays. One round of ring sprays was previously completed in early spring 2020 & tree planting & \\
-\hline
-2020 & Low Stem Density & replant 250 stems/acre- 75 new stems. treat fescue & tree planting & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 298 new stems. Need ring sprays & tree planting & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 420 new stems. Poor soils & tree planting and soil amendments on every stem & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & Replant 200 stems/acre- 640 stems. dense tall fescue needs ring sprays &  & \\
-\hline
-2020 & Low Stem Vigor/Height \& Density & replant 150 stems/acre- 45 new stems. old haul road. trees damaged during repair &  & \\
-\hline
-\end{tabular}
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0183}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1172}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.4762}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2967}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0549}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0366}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
+Year
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Issue
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Description
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Treatment
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+TreatDate
+\end{minipage} \\
+\midrule()
+\endhead
+2021 & & Need tree release and some one gallon planting. Plan for
+planting \textasciitilde50 containers, ring sprays, blackberry release,
+and amendments & brush cut blackberry. & Backpack Spray & 04/2021 \\
+2021 & Bare Areas \& Low Stem Density & Continue seeding, amendments,
+and plant willow poles & Cover crop & & 06/2022 \\
+2021 & & Need tree release and some one gallon planting. Plan for
+planting \textasciitilde50 containers, ring sprays, blackberry release,
+and amendments & follow up spray with 2.5\% triclopyr & & 06/2021 \\
+2021 & Bare Areas \& Low Stem Density & Continue seeding, amendments,
+and plant willow poles & heavily seeded bare areas in P2 cuts with
+millet & & 08/2021 \\
+2021 & Bare Areas \& Low Stem Density & Continue seeding, amendments,
+and plant willow poles & planted 325 new stems. Added soil amendment mix
+to planting holes for containers & & \\
+2021 & Low Stem Density & Dense tall fescue. Add 30 one gallons and ring
+spray & ring sprays & & 03/2021 \\
+2021 & Bare Areas \& Low Stem Density & Continue seeding, amendments,
+and plant willow poles & ring sprays- 2.5\% glyphosate solution & & \\
+2021 & & Need tree release and some one gallon planting. Plan for
+planting \textasciitilde50 containers, ring sprays, blackberry release,
+and amendments & Weedeat blackberry around trees & Mow & 04/2022 \\
+2021 & Low Stem Density & Needs about 25 more trees and ring sprays. & &
+& \\
+2021 & Low Stem Density & Old pond. Plant willows, elderberry, mulberry,
+and cottonwood. \textasciitilde25 stems. Add live stakes along streams &
+& & \\
+2021 & Low Stem Density & Old field succession. Reduce sweet gum by
+40\%. Plan for blackberry release, 25 one gallons, and ring sprays & &
+& \\
+2021 & Low Stem Density & Needs 25 one gallons & & & \\
+2021 & Low Stem Vigor/Height \& Density & Needs 20 one gallons. Add
+amendments now. Very few trees in veg plot & & & \\
+2020 & & Old field succession dominating area. Low planted stem density
+persists after tree plantings in early 2021 & 40 new bare root and
+1-gallon containers planted- 300 stem/acre rate & & 02/2021 \\
+2020 & & Old field succession dominating area. Low planted stem density
+persists after tree plantings in early 2021 & Cleared blackberry heavily
+competing with trees & & 04/2021 \\
+2020 & Low Stem Vigor/Height \& Density & Need replant- 150 stems/acre.
+105 new stems. old pond- take soil sample & planted 105 new stems & &
+02/2021 \\
+2020 & Low Stem Density & Needs trees. Dense tall fescue needs ring
+sprays & Planted 110 new bare roots and 1-gallons & & 02/2021 \\
+2020 & & replant 250 stems/acre- 25 new stems. treat fescue & planted 25
+stems & & 02/2021 \\
+2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 263
+stems . treat dense tall fescue & planted 263 new stems & & 02/2021 \\
+2020 & Low Stem Vigor/Height \& Density & replant 150 stems/acre- 45 new
+stems. low groundcover. Few trees are low vigor & planted 45 new stems &
+& 02/2021 \\
+2020 & Low Stem Vigor/Height \& Density & Replant 200 stems/acre- 640
+stems. dense tall fescue needs ring sprays & Planted 640 stems. Ring
+sprays & & 02/2021 \\
+2020 & & replant 250 stems/acre- 25 new stems. treat fescue & ring
+sprays & & 03/2021 \\
+2020 & Low Stem Density & Needs trees. Dense tall fescue needs ring
+sprays & ring sprays & & 03/2021 \\
+2020 & Low Stem Vigor/Height \& Density & Replant. Needs 150 stems per
+acre. Needs ring sprays. One round of ring sprays was previously
+completed in early spring 2020 & ring sprays & & 03/2021 \\
+2020 & Low Stem Density & replant 250 stems/acre- 75 new stems. treat
+fescue & ring sprays & & 03/2021 \\
+2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 263
+stems . treat dense tall fescue & ring sprays & & 03/2021 \\
+2020 & & replant 250 stems/acre- 25 new stems. treat fescue & ring
+sprays & & 03/2021 \\
+2020 & Low Stem Vigor/Height \& Density & Replant. Needs 150 stems per
+acre. Needs ring sprays. One round of ring sprays was previously
+completed in early spring 2020 & Ring sprays & & 03/2022 \\
+2020 & & Old field succession dominating area. Low planted stem density
+persists after tree plantings in early 2021 & ring sprays- 2.5\%
+glyphosate & & 03/2021 \\
+2020 & Low Stem Vigor/Height \& Density & Replant 200 stems/acre- 640
+stems. dense tall fescue needs ring sprays & Ring sprays. All N half.
+Some S half & & 04/2020 \\
+2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 420
+new stems. Poor soils & soil amendments & & 06/2021 \\
+2020 & & replant 250 stems/acre- 25 new stems. treat fescue & tree
+planting & & 02/2021 \\
+2020 & Low Stem Vigor/Height \& Density & Replant. Needs 150 stems per
+acre. Needs ring sprays. One round of ring sprays was previously
+completed in early spring 2020 & tree planting & & \\
+2020 & Low Stem Density & replant 250 stems/acre- 75 new stems. treat
+fescue & tree planting & & 02/2021 \\
+2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 298
+new stems. Need ring sprays & tree planting & & 02/2021 \\
+2020 & Low Stem Vigor/Height \& Density & replant 175 stems/acre- 420
+new stems. Poor soils & tree planting and soil amendments on every stem
+& & 02/2021 \\
+2020 & Low Stem Vigor/Height \& Density & Replant 200 stems/acre- 640
+stems. dense tall fescue needs ring sprays & & & \\
+2020 & Low Stem Vigor/Height \& Density & replant 150 stems/acre- 45 new
+stems. old haul road. trees damaged during repair & & & \\
+\bottomrule()
+\end{longtable}
+
+\newpage
 
 \hypertarget{weed-issues}{%
 \subsection{Weed Issues}\label{weed-issues}}
 
-\begin{tabular}{r|l|l|l|l|l}
-\hline
-Year & Species1 & Issue & Treatment & Method & TreatDate\\
-\hline
-2021 & Chinese Privet & large stems & Cut stump & Cut Stump & 02/2021\\
-\hline
-2021 & Chinese Privet & Scattered privet. Some treated previously in 2019 &  &  & \\
-\hline
-2021 & Johnson Grass & Dense. Flowering in July 2021 &  &  & \\
-\hline
-2021 & Multiflora Rose & in trees- maybe cut stump &  &  & \\
-\hline
-2021 & Sweet Gum & Dense sweet gum. Reduce by 50\% &  &  & \\
-\hline
-2021 & Sweet Gum & Reduce by 50\% &  &  & \\
-\hline
-2021 & Tree Of Heaven & Several trees. Stem inject & Cut stump and stem injection. Some resprouts may occur in future. Need to check next year. & Stem Injection & 09/2021\\
-\hline
-2021 & Tree Of Heaven & Sapling and pole sized. Mostly off CE & stem injection and cut stump. Neil & Stem Injection & 10/2021\\
-\hline
-2019 & Chinese Privet & cut stump &  &  & \\
-\hline
-2019 & Multiflora Rose & Large clump. Treated spring 2021. Few shoots survive &  &  & \\
-\hline
-2019 & Tree Of Heaven & Some large some sapling & stem injection & Stem Injection & 09/2021\\
-\hline
-\end{tabular}
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0263}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0842}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2789}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.4789}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0789}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0526}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
+Year
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Species1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Issue
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Treatment
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+TreatDate
+\end{minipage} \\
+\midrule()
+\endhead
+2021 & Chinese Privet & large stems & Cut stump & Cut Stump & 02/2021 \\
+2021 & Chinese Privet & Scattered privet. Some treated previously in
+2019 & & & \\
+2021 & Johnson Grass & Dense. Flowering in July 2021 & & & \\
+2021 & Multiflora Rose & in trees- maybe cut stump & & & \\
+2021 & Sweet Gum & Dense sweet gum. Reduce by 50\% & & & \\
+2021 & Sweet Gum & Reduce by 50\% & & & \\
+2021 & Tree Of Heaven & Several trees. Stem inject & Cut stump and stem
+injection. Some resprouts may occur in future. Need to check next year.
+& Stem Injection & 09/2021 \\
+2021 & Tree Of Heaven & Sapling and pole sized. Mostly off CE & stem
+injection and cut stump. Neil & Stem Injection & 10/2021 \\
+2019 & Chinese Privet & cut stump & & & \\
+2019 & Multiflora Rose & Large clump. Treated spring 2021. Few shoots
+survive & & & \\
+2019 & Tree Of Heaven & 2 large trees & stem injection. Two large stems
+& Stem Injection & 09/2021 \\
+2019 & Tree Of Heaven & Some large some sapling & stem injection & Stem
+Injection & 09/2021 \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{miscellaneous-issues}{%
 \subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
 
-\begin{tabular}{r|l|l}
-\hline
-Year & Subtype & Issue\_Desc\\
-\hline
-2019 & Soil Sample & BW-B\\
-\hline
-2019 & Soil Sample & BW-C\\
-\hline
-\end{tabular}
+\begin{longtable}[]{@{}rll@{}}
+\toprule()
+Year & Subtype & Issue\_Desc \\
+\midrule()
+\endhead
+2019 & Soil Sample & BW-B \\
+2019 & Soil Sample & BW-C \\
+\bottomrule()
+\end{longtable}
 
 \end{document}

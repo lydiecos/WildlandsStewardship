@@ -34,6 +34,16 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -73,92 +83,98 @@
 \hypertarget{boundary-issues}{%
 \subsection{Boundary Issues}\label{boundary-issues}}
 
-\begin{tabular}{}
-\hline
-
-\hline
-\end{tabular}
+\begin{longtable}[]{@{}rll@{}}
+\toprule()
+Year & Issue & Treatment \\
+\midrule()
+\endhead
+2022 & Mowing & Added polytape \\
+2022 & Mowing & Added polytape \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{channel-issues}{%
 \subsection{Channel Issues}\label{channel-issues}}
 
-\begin{tabular}{}
-\hline
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
-\hline
-\end{tabular}
+\newpage
 
 \hypertarget{vegetation-issues}{%
 \subsection{Vegetation Issues}\label{vegetation-issues}}
 
-\begin{tabular}{r|l|l}
-\hline
-Year & Issue & Treatment\\
-\hline
-2022 & Low Stem Density & Ring sprays\\
-\hline
-2022 & Low Stem Density & Ring sprays\\
-\hline
-2022 & Low Stem Density & Ring sprays\\
-\hline
-2022 & Low Stem Density & Ring sprays\\
-\hline
-2022 & Low Stem Density & Ring sprays\\
-\hline
-2022 & Low Stem Density & Ring sprays\\
-\hline
-2022 & Low Stem Density & Ring sprays\\
-\hline
-2022 & Low Stem Density & Tree boosters\\
-\hline
-2022 & Low Stem Density & Tree boosters\\
-\hline
-2022 & Low Stem Density & Tree boosters\\
-\hline
-2022 & Low Stem Density & Tree boosters\\
-\hline
-2022 & Low Stem Density & Tree boosters\\
-\hline
-2022 & Low Stem Density & Tree boosters\\
-\hline
-2022 & Low Stem Density & Tree boosters\\
-\hline
-2022 & Low Stem Density & \\
-\hline
-\end{tabular}
+\begin{longtable}[]{@{}rlll@{}}
+\toprule()
+Year & Issue & Treatment & TreatDate \\
+\midrule()
+\endhead
+2022 & Low Stem Density & Ring sprays & 04/2022 \\
+2022 & Low Stem Density & Ring sprays & 04/2022 \\
+2022 & Low Stem Density & Ring sprays & 04/2022 \\
+2022 & Low Stem Density & Ring sprays & 04/2022 \\
+2022 & Low Stem Density & Ring sprays & 04/2022 \\
+2022 & Low Stem Density & Ring sprays & 04/2022 \\
+2022 & Low Stem Density & Ring sprays & 07/2022 \\
+2022 & Low Stem Density & Tree boosters & 07/2022 \\
+2022 & Low Stem Density & Tree boosters & 07/2022 \\
+2022 & Low Stem Density & Tree boosters & 07/2022 \\
+2022 & Low Stem Density & Tree boosters & 07/2022 \\
+2022 & Low Stem Density & Tree boosters & 07/2022 \\
+2022 & Low Stem Density & Tree boosters & 07/2022 \\
+2022 & Low Stem Density & Tree boosters & 07/2022 \\
+2022 & Low Stem Density & & \\
+\bottomrule()
+\end{longtable}
+
+\newpage
 
 \hypertarget{weed-issues}{%
 \subsection{Weed Issues}\label{weed-issues}}
 
-\begin{tabular}{r|l|l|l|l|l|l}
-\hline
-Year & Species1 & Species2 & Issue & Treatment & Method & TreatDate\\
-\hline
-2022 & Blackberry & Tree Of Heaven &  & Blackberry \& TOH treatment &  & 04/2022\\
-\hline
-2022 & Blackberry &  &  & Blackberry treatment &  & 04/2022\\
-\hline
-2022 & Blackberry &  &  & Blackberry treatment &  & 04/2022\\
-\hline
-2022 & Blackberry &  &  & Blackberry treatment &  & 04/2022\\
-\hline
-2022 & Multiflora Rose & Callery Pear &  &  &  & \\
-\hline
-2022 & Tree Of Heaven &  &  & TOH treatment &  & 04/2022\\
-\hline
-2022 & Tree Of Heaven &  &  & TOH treatment &  & 04/2022\\
-\hline
-2021 & Tree Of Heaven &  & scattered saplings and seedlings & TOH treatment & Cut Stump & 04/2022\\
-\hline
-\end{tabular}
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0431}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1379}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1293}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2845}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2328}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0862}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0862}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
+Year
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Species1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Species2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Issue
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Treatment
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+TreatDate
+\end{minipage} \\
+\midrule()
+\endhead
+2022 & Blackberry & Tree Of Heaven & & Blackberry \& TOH treatment & &
+04/2022 \\
+2022 & Blackberry & & & Blackberry treatment & & 04/2022 \\
+2022 & Blackberry & & & Blackberry treatment & & 04/2022 \\
+2022 & Blackberry & & & Blackberry treatment & & 04/2022 \\
+2022 & Multiflora Rose & Callery Pear & & & & \\
+2022 & Tree Of Heaven & & & TOH treatment & & 04/2022 \\
+2022 & Tree Of Heaven & & & TOH treatment & & 04/2022 \\
+2021 & Tree Of Heaven & & scattered saplings and seedlings & TOH
+treatment & Cut Stump & 04/2022 \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{miscellaneous-issues}{%
 \subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
 
-\begin{tabular}{}
-\hline
-
-\hline
-\end{tabular}
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
 \end{document}

@@ -34,6 +34,16 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -58,13 +68,13 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={Stewardship for Double Rock},
-  pdfauthor={Lead Steward: Sam},
+  pdftitle={Stewardship for Deep Meadow},
+  pdfauthor={Lead Steward: Dominic},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{Stewardship for Double Rock}
-\author{Lead Steward: Sam}
+\title{Stewardship for Deep Meadow}
+\author{Lead Steward: Dominic}
 \date{2022-09-09}
 
 \begin{document}
@@ -73,84 +83,73 @@
 \hypertarget{boundary-issues}{%
 \subsection{Boundary Issues}\label{boundary-issues}}
 
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
 \hypertarget{channel-issues}{%
 \subsection{Channel Issues}\label{channel-issues}}
+
+\begin{longtable}[]{@{}rll@{}}
+\toprule()
+Year & Subtype & Description \\
+\midrule()
+\endhead
+2021 & Channel Stability/Erosion & Bank scour \\
+\bottomrule()
+\end{longtable}
+
+\newpage
 
 \hypertarget{vegetation-issues}{%
 \subsection{Vegetation Issues}\label{vegetation-issues}}
 
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
+
+\newpage
+
 \hypertarget{weed-issues}{%
 \subsection{Weed Issues}\label{weed-issues}}
 
+\begin{longtable}[]{@{}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0549}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1648}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2308}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2747}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1648}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1099}}@{}}
+\toprule()
+\begin{minipage}[b]{\linewidth}\raggedleft
 Year
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Species1
-
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Species2
-
-2021
-
-Chinese Privet
-
-2021
-
-Chinese Privet
-
-2021
-
-Chinese Privet
-
-Japanese Honeysuckle
-
-2021
-
-Chinese Privet
-
-2021
-
-Chinese Privet
-
-2021
-
-Chinese Privet
-
-2021
-
-Multiflora Rose
-
-Japanese Honeysuckle
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Treatment
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+TreatDate
+\end{minipage} \\
+\midrule()
+\endhead
+2022 & Chinese Privet & Japanese Honeysuckle & & & \\
+2022 & Morning Glory & Johnson Grass & & & \\
+2022 & Morning Glory & Johnson Grass & & & \\
+2022 & Parrot Feather & & Parrot Feather treatment & Backpack Spray &
+06/2022 \\
+2021 & Parrot Feather & & Parrot feather treatment & Backpack Spray &
+06/2022 \\
+2021 & Parrot Feather & & & & \\
+2021 & Water Primrose & & & & \\
+\bottomrule()
+\end{longtable}
 
 \hypertarget{miscellaneous-issues}{%
 \subsection{Miscellaneous Issues}\label{miscellaneous-issues}}
 
-Year
-
-Subtype
-
-Issue\_Desc
-
-2022
-
-Soil Sample
-
-Soil Sample 1
-
-2022
-
-Soil Sample
-
-Soil Sample 4
-
-2022
-
-Soil Sample
-
-Soil Sample 7
-
-2022
-
-Misc
-
-Soil Sample 8
+\textbar\textbar{} \textbar\textbar{} \textbar\textbar{}
+\textbar\textbar{}
 
 \end{document}
