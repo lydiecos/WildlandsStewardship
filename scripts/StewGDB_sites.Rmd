@@ -27,7 +27,7 @@ options(knitr.kable.NA = '')
 SiteB_table <- SiteB %>%
   rename(Treatment = Treat_Desc) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteB)-2)) %>%
+  select(2:(length(SiteB)-1)) %>%
   discard(~all(is.na(.) | . == ""))
   
 #Create table
@@ -41,7 +41,7 @@ SiteC_table <- SiteC %>%
   rename(Description = Issue_Desc,
          Treatment = Treat_Desc) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteC)-2)) %>%
+  select(2:(length(SiteC)-1)) %>%
   discard(~all(is.na(.) | . == "")) 
 
 
@@ -49,6 +49,7 @@ kable(SiteC_table, row.names = FALSE)
 ```
 
 \newpage
+
 ## Vegetation Issues
 
 ```{r vegetation, echo=FALSE}
@@ -57,7 +58,7 @@ SiteV_table <- SiteV %>%
          Treatment = Treat_Desc,
          Method = Treat_Method_1) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteV)-2)) %>%
+  select(2:(length(SiteV)-1)) %>%
   discard(~all(is.na(.) | . == "")) 
 
 
@@ -68,7 +69,9 @@ kable(SiteV_table, row.names = FALSE)
 #   width(j = c(3, 4), width = c(2,1), unit = "in")
 ```
 
+
 \newpage
+
 ## Weed Issues
 
 ```{r weeds, echo=FALSE}
@@ -79,12 +82,13 @@ SiteW_table <- SiteW %>%
          Treatment = Treat_Desc,
          Method = Treat_Method_1) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteW)-2)) %>%
+  select(2:(length(SiteW)-1)) %>%
   discard(~all(is.na(.) | . == ""))
 
 
 kable(SiteW_table, row.names = FALSE)
 ```
+
 
 ## Miscellaneous Issues
 
@@ -92,7 +96,7 @@ kable(SiteW_table, row.names = FALSE)
 SiteM_table <- SiteM %>%
   rename(Treatment = Treat_Desc) %>%
   filter(!is.na(Site)) %>%
-  select(2:(length(SiteM)-2)) %>%
+  select(2:(length(SiteM)-1)) %>%
   discard(~all(is.na(.) | . == "")) 
 
 

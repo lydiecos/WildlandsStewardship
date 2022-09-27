@@ -16,6 +16,7 @@ library(rgdal)
 library(sf)
 library(dplyr)
 library(rmarkdown)
+library(ggmap)
 library(arcgisbinding)
 arc.check_product()
 
@@ -84,7 +85,7 @@ Issue_Mgmt_Poly <- Issue_Mgmt_Poly %>%
                         "Issue_LocationOrFeature", "Percent_CoverAffected_Veg", 
                         "Percent_CoverAffected_1", "Percent_CoverAffected_2", 
                         "Percent_CoverAffected_3", "Percent_CoverAffected_4",
-                        "Percent_CoverAffected_5", "Treat_Method_1", 
+                        "Percent_CoverAffected_5", "Resolved", "Treat_Method_1", 
                         "Chemical_1", "Adjuvant"), na_if, "na"))
 
 # Specify subtype
@@ -126,7 +127,7 @@ for (gi in Line$GlobalID){
 
 # Change "na" text to actual NAs
 Issue_Mgmt_Line <- Issue_Mgmt_Line %>%
-  mutate(across(.cols=c("Issue", "Issue_LocationOrFeature",
+  mutate(across(.cols=c("Issue", "Issue_LocationOrFeature", "Resolved",
                         "Percent_CoverAffected", "Treat_Method_1", 
                         "Chemical_1"), na_if, "na"))
 
@@ -176,9 +177,10 @@ Issue_Mgmt_Point <- Issue_Mgmt_Point %>%
                         "Percent_CoverAffected_1", "Severity", 
                         "Percent_CoverAffected_2", "Percent_CoverAffected_3", 
                         "Percent_CoverAffected_4", "Percent_CoverAffected_5", 
-                        "Issue", "Issue_LocationOrFeature", "Treat_Method_1", 
-                        "Chemical_1", "Treat_Method_2", "Chemical_2",
-                        "Adjuvant", "Percent_CntrlEffective_"), na_if, "na"))
+                        "Resolved", "Issue", "Issue_LocationOrFeature", 
+                        "Treat_Method_1", "Chemical_1", "Treat_Method_2", 
+                        "Chemical_2","Adjuvant", "Percent_CntrlEffective_"), 
+                na_if, "na"))
 
 # Specify subtype
 Issue_Mgmt_Point <- Issue_Mgmt_Point %>%
@@ -206,6 +208,9 @@ for (s in Issue_Mgmt_All$Site){
   n = n + 1
 }
 
+# Make Subtype a factor
+Issue_Mgmt_All$Subtype <- factor(Issue_Mgmt_All$Subtype)
+
 # Export complete dataset
 write.csv("./data/Issue_Mgmt_All")
 
@@ -213,17 +218,19 @@ write.csv("./data/Issue_Mgmt_All")
 #### Sort by Issue ####
 
 Boundary <- Issue_Mgmt_All %>%
-  filter(Subtype == c("CE Encroachment", "Boundary Issue")) %>%
-  select(Site, Year, Issue, Issue_Desc, Treat_Desc, Resolved, 
+  filter(Subtype %in% c("CE Encroachment", "Boundary Issue")) %>%
+  select(Site, Year, Issue, Issue_Desc, Treat_Desc, TreatDate, Resolved, 
          Lead_Steward) %>%
-  arrange(Site, desc(Year), Treat_Desc)
+  mutate(TreatDate = format(TreatDate, "%m/%Y")) %>%
+  arrange(Site, desc(Year), desc(Resolved))
 
 Channel <- Issue_Mgmt_All %>%
-  filter(Subtype == c("Needs Livestakes", "Channel Stability/Erosion", 
+  filter(Subtype %in% c("Needs Livestakes", "Channel Stability/Erosion", 
                       "Failed Structure")) %>%
-  select(Site, Year, Subtype, Issue, Issue_Desc, Treat_Desc, Resolved,
+  select(Site, Year, Subtype, Issue, Issue_Desc, Treat_Desc, TreatDate, Resolved,
          Lead_Steward) %>%
-  arrange(Site, desc(Year), Treat_Desc)
+  mutate(TreatDate = format(TreatDate, "%m/%Y")) %>%
+  arrange(Site, desc(Year), desc(Resolved))
 
 Vegetation <- Issue_Mgmt_All %>% 
   filter(Subtype == "Vegetation Issue") %>%
@@ -231,21 +238,22 @@ Vegetation <- Issue_Mgmt_All %>%
          Treat_Desc, Treat_Method_1, TreatDate, Resolved,
          Lead_Steward) %>%
   mutate(TreatDate = format(TreatDate, "%m/%Y")) %>%
-  arrange(Site, desc(Year), Treat_Desc)
+  arrange(Site, desc(Year), desc(Resolved))
 
 Weed <- Issue_Mgmt_All %>%
-  filter(Subtype == c("Weed Occurrence", "In-Stream Vegetation")) %>%
+  filter(Subtype %in% c("Weed Occurrence", "In-Stream Vegetation")) %>%
   select(Site, Year, InvSpecies_1, InvSpecies_2,
          Issue_Desc, Treat_Desc, Treat_Method_1, TreatDate,
          Resolved, Lead_Steward) %>%
   mutate(TreatDate = format(TreatDate, "%m/%Y")) %>%
-  arrange(Site, desc(Year), InvSpecies_1)
+  arrange(Site, desc(Year), InvSpecies_1, desc(Resolved))
 
 Misc <- Issue_Mgmt_All %>% 
-  filter(Subtype == c("Misc", "Beaver Dam", "Soil Sample")) %>%
+  filter(Subtype %in% c("Misc", "Beaver Dam", "Soil Sample")) %>%
   select(Site, Year, Subtype, Issue_Desc, Issue_LocationOrFeature, 
-         Treat_Desc, Resolved, Lead_Steward) %>%
-  arrange(Site, desc(Year), Treat_Desc)
+         Treat_Desc, TreatDate, Resolved, Lead_Steward) %>%
+  mutate(TreatDate = format(TreatDate, "%m/%Y")) %>%
+  arrange(Site, desc(Year), desc(Resolved))
 
 
 #### Create PDFs ####
@@ -292,6 +300,25 @@ for (s in unique(Issue_Mgmt_All$Site)){
 }
 
 
+#### Create Maps ####
+
+Point.sp <- arc.data2sp(Point)
+proj4string(Point.sp)=CRS("+init=epsg:2264") 
+Point.sp <- spTransform(Point.sp, CRS("+proj=longlat +datum=WGS84"))
+plot(Point.sp)
+
+mybaseMap <- get_stamenmap(bbox = c(left = -84.321869,
+                                bottom = 33.842316,
+                                right = -75.460621,
+                                top = 36.588117),
+                       maptype = "terrain", 
+                       crop = FALSE)
+
+ggmap(mybaseMap) +
+  geom_sf(data = as.data.frame(coordinates(Point.sp)), 
+          aes(x = coords.x1, y = coords.x2))
+
+geom_sf(data = Point.sp)
 # To do:
 # Work on further optimization of table displays
 # Add Lead Scientist and PM info to titles of PDFs
