@@ -292,33 +292,46 @@ for (s in unique(Issue_Mgmt_All$Site)){
   SiteAll <- Issue_Mgmt_All %>%
     filter(Site == s & !is.na(Site)) %>%
     arrange(desc(Year), Subtype) %>%
-    relocate(Site, .before = GlobalID) %>%
-    relocate(Year, .before = GlobalID) %>%
-    relocate(Subtype, .before = GlobalID) %>%
-    relocate(GlobalID, .after = Lead_Steward)
+    relocate(c(Site, Year, Subtype), .before = GlobalID) %>%
+    relocate(GlobalID, .after = Lead_Steward) %>%
+    rename(Area_FtSq = Shape__Area,
+           Length_Ft = Shape__Length,
+           CreationDate.Mgmt = CreationDate.y,
+           Creator.Mgmt = Creator.y,
+           EditDate.Mgmt = EditDate.y,
+           Editor.Mgmt = Editor.y) %>%
+    mutate(CreationDate.Issue = if_else(is.na(CreationDate), CreationDate.x, 
+                                        CreationDate),
+           Creator.Issue = if_else(is.na(Creator), Creator.x, Creator),
+           EditDate.Issue = if_else(is.na(EditDate), EditDate.x, EditDate),
+           Editor.Issue = if_else(is.na(Editor), Editor.x, Editor)) %>%
+    relocate(c(CreationDate.Issue, Creator.Issue, EditDate.Issue, Editor.Issue), 
+             .before = ISSUE_ID_) %>%
+    select(-c(CreationDate, Creator, EditDate, Editor, CreationDate.x, Creator.x,
+              EditDate.x, Editor.x))
   write.csv(SiteAll, paste0('./reports/Spreadsheets/', s, '.csv'))
 }
 
 
 #### Create Maps ####
 
-Point.sp <- arc.data2sp(Point)
-proj4string(Point.sp)=CRS("+init=epsg:2264") 
-Point.sp <- spTransform(Point.sp, CRS("+proj=longlat +datum=WGS84"))
-plot(Point.sp)
-
-mybaseMap <- get_stamenmap(bbox = c(left = -84.321869,
-                                bottom = 33.842316,
-                                right = -75.460621,
-                                top = 36.588117),
-                       maptype = "terrain", 
-                       crop = FALSE)
-
-ggmap(mybaseMap) +
-  geom_sf(data = as.data.frame(coordinates(Point.sp)), 
-          aes(x = coords.x1, y = coords.x2))
-
-geom_sf(data = Point.sp)
+# Point.sp <- arc.data2sp(Point)
+# proj4string(Point.sp)=CRS("+init=epsg:2264") 
+# Point.sp <- spTransform(Point.sp, CRS("+proj=longlat +datum=WGS84"))
+# plot(Point.sp)
+# 
+# mybaseMap <- get_stamenmap(bbox = c(left = -84.321869,
+#                                 bottom = 33.842316,
+#                                 right = -75.460621,
+#                                 top = 36.588117),
+#                        maptype = "terrain", 
+#                        crop = FALSE)
+# 
+# ggmap(mybaseMap) +
+#   geom_sf(data = as.data.frame(coordinates(Point.sp)), 
+#           aes(x = coords.x1, y = coords.x2))
+# 
+# geom_sf(data = Point.sp)
 # To do:
 # Work on further optimization of table displays
 # Add Lead Scientist and PM info to titles of PDFs
