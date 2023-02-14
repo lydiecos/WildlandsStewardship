@@ -3,20 +3,25 @@ title: "Stewardship for `r s`"
 author: "Lead Steward: `r first(SiteAll$Lead_Steward)`"
 date: "`r Sys.Date()`"
 output: pdf_document
-classoption: landscape
+classoption: landscape, a3paper
 ---
 
 ```{r setup, include=FALSE}
 library(knitr)
 library(tidyverse)
 library(flextable)
+options(knitr.kable.NA = '', knitr.table.format = "latex")
+library(kableExtra)
+library(gt)
+#library(array)
+#library(booktabs)
+#library(threeparttablex)
 opts_chunk$set(echo = TRUE)
 
 # text to reinsert in title: SiteB$Site[1]
 
 # Instructions here for producing multiple PDFs: https://stackoverflow.com/questions/30422008/r-knitr-pdf-is-there-a-posssibility-to-automatically-save-pdf-reports-generate
 
-options(knitr.kable.NA = '')
 ```
 
 ## Boundary Issues
@@ -25,13 +30,24 @@ options(knitr.kable.NA = '')
 ```{r boundary, echo=FALSE}
 #Report by Site
 SiteB_table <- SiteB %>%
-  rename(Treatment = Treat_Desc) %>%
+  rename(Treatment = Treat_Desc,
+         Description = Issue_Desc) %>%
   filter(!is.na(Site)) %>%
   select(2:(length(SiteB)-1)) %>%
-  discard(~all(is.na(.) | . == ""))
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), gsub, pattern = "_", replacement = ""),
+         across(everything(), gsub, pattern = "&", replacement = "and"),
+         across(everything(), gsub, pattern = "%", replacement = " pct"),
+         across(everything(), gsub, pattern = "#", replacement = ""))
   
 #Create table
-kable(SiteB_table, row.names = FALSE)
+if(nrow(SiteB_table) > 0){
+  kbl(SiteB_table, row.names = F, escape = F, booktabs = T) %>%
+    column_spec(3:4, width = "3in") %>%
+    kable_styling(font_size = 8, latex_options = c("striped", "hover"),
+                  position = "left")}
+
+#gt(SiteB_table)
 ```
 
 ## Channel Issues
@@ -42,10 +58,18 @@ SiteC_table <- SiteC %>%
          Treatment = Treat_Desc) %>%
   filter(!is.na(Site)) %>%
   select(2:(length(SiteC)-1)) %>%
-  discard(~all(is.na(.) | . == "")) 
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), gsub, pattern = "_", replacement = ""),
+         across(everything(), gsub, pattern = "&", replacement = "and"),
+         across(everything(), gsub, pattern = "%", replacement = " pct"),
+         across(everything(), gsub, pattern = "#", replacement = ""))
 
 
-kable(SiteC_table, row.names = FALSE)
+if(nrow(SiteC_table) > 0){
+  kbl(SiteC_table, row.names = F, escape = F, booktabs = T) %>%
+    column_spec(4:5, width = "3in") %>%
+    kable_styling(font_size = 8, latex_options = "striped",
+                  position = "left")}
 ```
 
 \newpage
@@ -59,18 +83,20 @@ SiteV_table <- SiteV %>%
          Method = Treat_Method_1) %>%
   filter(!is.na(Site)) %>%
   select(2:(length(SiteV)-1)) %>%
-  discard(~all(is.na(.) | . == "")) 
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), gsub, pattern = "_", replacement = ""),
+         across(everything(), gsub, pattern = "&", replacement = "and"),
+         across(everything(), gsub, pattern = "%", replacement = " pct"),
+         across(everything(), gsub, pattern = "#", replacement = ""))
 
-
-kable(SiteV_table, row.names = FALSE)
-# Alternate table method that allows modification of column width
-# (but would require other editing)
-# flextable(SiteV_table) %>%
-#   width(j = c(3, 4), width = c(2,1), unit = "in")
+if(nrow(SiteV_table) > 0){
+  kbl(SiteV_table, row.names = F, escape = F, booktabs = T) %>%
+  column_spec(3:4, width = "3in") %>%
+  kable_styling(font_size = 8, latex_options = "striped",
+                position = "left")}
 ```
 
 
-\newpage
 
 ## Weed Issues
 
@@ -83,10 +109,18 @@ SiteW_table <- SiteW %>%
          Method = Treat_Method_1) %>%
   filter(!is.na(Site)) %>%
   select(2:(length(SiteW)-1)) %>%
-  discard(~all(is.na(.) | . == ""))
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), gsub, pattern = "_", replacement = ""),
+         across(everything(), gsub, pattern = "&", replacement = "and"),
+         across(everything(), gsub, pattern = "%", replacement = " pct"),
+         across(everything(), gsub, pattern = "#", replacement = ""))
 
 
-kable(SiteW_table, row.names = FALSE)
+if(nrow(SiteW_table) > 0){
+  kbl(SiteW_table, row.names = F, escape = F, booktabs = T) %>%
+    column_spec(4:5, width = "2in") %>%
+    kable_styling(font_size = 8, latex_options = "striped",
+                  position = "left")}
 ```
 
 
@@ -94,13 +128,24 @@ kable(SiteW_table, row.names = FALSE)
 
 ```{r misc, echo=FALSE}
 SiteM_table <- SiteM %>%
-  rename(Treatment = Treat_Desc) %>%
+  rename(Treatment = Treat_Desc,
+         Description = Issue_Desc,
+         LocationOrFeature = Issue_LocationOrFeature) %>%
   filter(!is.na(Site)) %>%
   select(2:(length(SiteM)-1)) %>%
-  discard(~all(is.na(.) | . == "")) 
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), gsub, pattern = "_", replacement = ""),
+         across(everything(), gsub, pattern = "&", replacement = "and"),
+         across(everything(), gsub, pattern = "%", replacement = " pct"),
+         across(everything(), gsub, pattern = "#", replacement = ""))
 
+if(nrow(SiteM_table) > 0){
+  kbl(SiteM_table, row.names = F, escape = F, booktabs = T) %>%
+  column_spec(3, width = "3in") %>%
+  kable_styling(font_size = 8, latex_options = "striped",
+                position = "left")
+}
 
-kable(SiteM_table, row.names = FALSE)
 ```
 
 

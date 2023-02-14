@@ -1,0 +1,39 @@
+---
+title: "Test"
+author: "Lydie Costes"
+date: "`r Sys.Date()`"
+output: pdf_document
+classoption: landscape, a3paper
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(flextable)
+options(knitr.kable.NA = '', knitr.table.format = "latex")
+library(kableExtra)
+library(gt)
+#library(array)
+#library(booktabs)
+#library(threeparttablex)
+opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+```{r cars}
+kbl(cars) %>%
+  column_spec(2, width = "2in")
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -31,21 +31,23 @@ getwd()
 LeadSteward <- read.csv("data/LeadSteward.csv")
 
 # Import GDB workspace
-GDBworkspace <- arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer")
+#GDBworkspace <- arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer")
+GDBworkspace <- arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v4a/FeatureServer")
 
 # Extract issue features as spatial dataframes
-Point <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/0"))
-Line <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/1"))
-Poly <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/2"))
+Point <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v4a/FeatureServer/2"))
+Line <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v4a/FeatureServer/1"))
+Poly <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v4a/FeatureServer/5"))
 
 # Extract revised features 
-RevisedLine <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/3"))
-RevisedArea <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/4"))
+RevisedLine <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v4a/FeatureServer/4"))
+RevisedArea <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v4a/FeatureServer/3"))
 
 # Extract management action tables
-MngActionLine <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/5"))
-MngActionArea <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/6"))
-MngActionPoint <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v3a/FeatureServer/7"))
+MngActionPoint <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v4a/FeatureServer/10"))
+MngActionLine <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v4a/FeatureServer/9"))
+MngActionArea <- arc.select(arc.open("https://services2.arcgis.com/n5rY677NVyRuW3Ht/arcgis/rest/services/StewardshipGDB_v4a/FeatureServer/8"))
+
 
 
 #### POLYGON DATA ####
@@ -61,8 +63,8 @@ for (gi in sort(MngActionArea$REL_GLOBALID)){
 }
 
 # Rename GlobalID column to match
-dd=dd[c(2:9,11:19)]
-colnames(dd)[9] <- "GlobalID"
+dd=dd[c(2:18,20)]
+colnames(dd)[18] <- "GlobalID"
 
 # Combine issue data with management data
 cc=distinct(cc)
@@ -71,11 +73,19 @@ ee=merge.data.frame(cc,dd,by="GlobalID")
 ee=distinct(ee)
 colnames(ee)[3] <- "Subtype"
 
+# reformat date columns bc they're causing issues
+#as.POSIXct(Poly$CreationDate, format = "%Y-%M-%D %H:%M:%S")
+Poly$CreationDate <- as.POSIXct.Date(Poly$CreationDate)
+Poly$EditDate <- as.POSIXct.Date(Poly$EditDate)
+
+
 # Add in data with no management actions
 Issue_Mgmt_Poly <- data.frame(ee)
+
 for (gi in Poly$GlobalID){
   if (gi %in% ee$GlobalID) {
-    } else Issue_Mgmt_Poly <- bind_rows(Issue_Mgmt_Poly, Poly[which(Poly$GlobalID == gi),])
+    } else Issue_Mgmt_Poly <- bind_rows(Issue_Mgmt_Poly, 
+                                        Poly[which(Poly$GlobalID == gi),])
 }
 
 # Change "na" text to actual NAs
@@ -108,8 +118,8 @@ for (gi in sort(MngActionLine$REL_GLOBALID)){
 }
 
 # Rename GlobalID column to match
-dd=dd[c(2:9,11:19)]
-colnames(dd)[9] <- "GlobalID"
+dd=dd[c(2:18,20)]
+colnames(dd)[18] <- "GlobalID"
 
 # Combine issue data with management data
 cc=distinct(cc)
@@ -117,6 +127,11 @@ dd=distinct(dd)
 ee=merge.data.frame(cc,dd,by="GlobalID")
 ee=distinct(ee)
 colnames(ee)[3] <- "Subtype"
+
+# reformat date columns bc they're causing issues
+#as.POSIXct(Poly$CreationDate, format = "%Y-%M-%D %H:%M:%S")
+Line$CreationDate <- as.POSIXct.Date(Line$CreationDate)
+Line$EditDate <- as.POSIXct.Date(Line$EditDate)
 
 # Add in data with no management actions
 Issue_Mgmt_Line <- data.frame(ee)
@@ -139,6 +154,9 @@ Issue_Mgmt_Line <- Issue_Mgmt_Line %>%
                           '3' = 'In-Stream Vegetation',
                           '4' = 'Needs Livestakes'))
 
+# Fix NumTreatDays format
+Issue_Mgmt_Line$NumTreatDays <- as.integer(Issue_Mgmt_Line$NumTreatDays)
+
 
 #### POINT DATA ####
 
@@ -153,8 +171,8 @@ for (gi in sort(MngActionPoint$REL_GLOBALID)){
 }
 
 # Rename GlobalID column to match
-dd=dd[c(2:9,11:19)]
-colnames(dd)[9] <- "GlobalID"
+dd=dd[c(2:18,20)]
+colnames(dd)[18] <- "GlobalID"
 
 # Combine issue data with management data
 cc=distinct(cc)
@@ -162,6 +180,11 @@ dd=distinct(dd)
 ee=merge.data.frame(cc,dd,by="GlobalID")
 ee=distinct(ee)
 colnames(ee)[3] <- "Subtype"
+
+# reformat date columns bc they're causing issues
+#as.POSIXct(Poly$CreationDate, format = "%Y-%M-%D %H:%M:%S")
+Point$CreationDate <- as.POSIXct.Date(Point$CreationDate)
+Point$EditDate <- as.POSIXct.Date(Point$EditDate)
 
 # Add in data with no management actions
 Issue_Mgmt_Point <- data.frame(ee)
@@ -189,6 +212,9 @@ Issue_Mgmt_Point <- Issue_Mgmt_Point %>%
                           '2' = 'Failed Structure', '3' = 'Beaver Dam',
                           '4' = 'Soil Sample'))
 
+# Fix NumTreatDays format
+Issue_Mgmt_Point$NumTreatDays <- as.integer(Issue_Mgmt_Point$NumTreatDays)
+
 
 #### Combined Data ####
 
@@ -210,6 +236,9 @@ for (s in Issue_Mgmt_All$Site){
 
 # Make Subtype a factor
 Issue_Mgmt_All$Subtype <- factor(Issue_Mgmt_All$Subtype)
+
+# Remove underscores that can interfere with TeX
+#names(Issue_Mgmt_All) <- gsub("_", "", names(Issue_Mgmt_All))
 
 # Export complete dataset
 write.csv("./data/Issue_Mgmt_All")
@@ -281,9 +310,11 @@ for (s in unique(Issue_Mgmt_All$Site)){
   SiteV <- Vegetation[Vegetation$Site == s,]
   SiteW <- Weed[Weed$Site == s,]
   SiteM <- Misc[Misc$Site == s,]
+  unloadNamespace("kableExtra")
   render("./scripts/StewGDB_sites.Rmd", 
          output_file = paste0('../reports/PDFbySite/report.', s, '.pdf'))
 }
+
 
 
 #### Create CSVs ####
@@ -305,8 +336,8 @@ for (s in unique(Issue_Mgmt_All$Site)){
            Creator.Issue = if_else(is.na(Creator), Creator.x, Creator),
            EditDate.Issue = if_else(is.na(EditDate), EditDate.x, EditDate),
            Editor.Issue = if_else(is.na(Editor), Editor.x, Editor)) %>%
-    relocate(c(CreationDate.Issue, Creator.Issue, EditDate.Issue, Editor.Issue), 
-             .before = ISSUE_ID_) %>%
+    #relocate(c(CreationDate.Issue, Creator.Issue, EditDate.Issue, Editor.Issue), 
+             #.before = ISSUE_ID_) %>%
     select(-c(CreationDate, Creator, EditDate, Editor, CreationDate.x, Creator.x,
               EditDate.x, Editor.x))
   write.csv(SiteAll, paste0('./reports/Spreadsheets/', s, '.csv'))
