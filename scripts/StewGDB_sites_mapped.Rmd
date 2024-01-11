@@ -1,0 +1,325 @@
+---
+title: "Stewardship for `r s`"
+author: "Lead Steward: `r first(SiteAll$Lead_Steward)`"
+date: "`r Sys.Date()`"
+output: pdf_document
+classoption: portrait, a3paper
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(tidyverse)
+library(flextable)
+options(knitr.kable.NA = '', knitr.table.format = "latex")
+library(kableExtra)
+library(gt)
+library(ggmap)
+library(ggrepel)
+#library(array)
+#library(booktabs)
+#library(threeparttablex)
+opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# text to reinsert in title: SiteB$Site[1]
+
+# Instructions here for producing multiple PDFs: https://stackoverflow.com/questions/30422008/r-knitr-pdf-is-there-a-posssibility-to-automatically-save-pdf-reports-generate
+
+```
+
+
+## Boundary Issues
+
+
+```{r boundary, echo=FALSE}
+#Report by Site
+SiteB_table <- SiteB %>%
+  rename(Treatment = Treat_Desc,
+         Description = Issue_Desc) %>%
+  filter(!is.na(Site)) %>%
+  select(1,3:(length(SiteB)-2)) %>%
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), ~gsub(pattern = "_", replacement = "", .)),
+         across(everything(), ~gsub(pattern = "&", replacement = "and", .)),
+         across(everything(), ~gsub(pattern = "%", replacement = " pct", .)),
+         across(everything(), ~gsub(pattern = "#", replacement = "", .)))
+  
+#Create table
+if(nrow(SiteB_table) > 0){
+  kbl(SiteB_table, row.names = F, escape = F, booktabs = T) %>%
+    column_spec(4:5, width = "3in") %>%
+    kable_styling(font_size = 8, latex_options = c("striped", "hover"),
+                  position = "left")}
+
+#gt(SiteB_table)
+```
+
+```{r boundarylnmap, echo=FALSE}
+if(nrow(SiteB_table) > 0){
+  if(any(SiteB$Geom == "Line")){
+    ggplot() +
+      theme_void() +
+      labs(title = "Boundary Issues (lines)") +
+      geom_sf(data = CE_site, colour = "red", fill = NA) + 
+      {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+      geom_sf(data = Line_B, linewidth = 1) +
+      geom_text_repel(data = Line_B, aes(label = OBJECTID, geometry = geom),
+                      stat = "sf_coordinates", size = 3)
+      
+      }}
+```
+
+```{r boundaryplmap, echo=FALSE, results='asis'}
+if(nrow(SiteB_table) > 0){
+  if(any(SiteB$Geom == "Poly")){
+    ggplot() +
+      theme_void() +
+      labs(title = "Boundary Issues (polygons)") +
+      geom_sf(data = Poly_B) +
+      geom_sf(data = CE_site, colour = "red", fill = NA) + 
+      {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+      geom_sf_text(data = Poly_B, aes(label = OBJECTID), size = 3)}}
+if(nrow(SiteB_table) > 0){
+  cat("\n\\pagebreak\n")}
+```
+
+
+
+
+## Channel Issues
+
+```{r channelpt, echo=FALSE}
+SiteC_table <- SiteC %>%
+  rename(Description = Issue_Desc,
+         Treatment = Treat_Desc) %>%
+  filter(!is.na(Site)) %>%
+  select(1,3:(length(SiteC)-2)) %>%
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), ~gsub(pattern = "_", replacement = "", .)),
+         across(everything(), ~gsub(pattern = "&", replacement = "and", .)),
+         across(everything(), ~gsub(pattern = "%", replacement = " pct", .)),
+         across(everything(), ~gsub(pattern = "#", replacement = "", .)))
+
+
+if(nrow(SiteC_table) > 0){
+  kbl(SiteC_table, row.names = F, escape = F, booktabs = T) %>%
+    column_spec(5:6, width = "2in") %>%
+    kable_styling(font_size = 8, latex_options = "striped",
+                  position = "left")}
+```
+
+```{r channelFSmap, echo=FALSE}
+if(nrow(SiteC_table) > 0){
+  if(any(SiteC$Subtype == "Failed Structure")){
+    ggplot() +
+      theme_void() +
+      labs(title = "Channel Issues (Failed Structures)") +
+      geom_sf(data = CE_site, colour = "red", fill = NA) + 
+      {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+      geom_sf(data = Point_C) +
+      geom_text_repel(data = Point_C, aes(label = OBJECTID, geometry = geom),
+                      stat = "sf_coordinates", size = 3)}}
+
+```
+
+
+```{r channelLSmap, echo=FALSE}
+if(nrow(SiteC_table) > 0){
+  if(any(SiteC$Subtype == "Needs Livestakes")){
+    ggplot() +
+      theme_void() +
+      labs(title = "Channel Issues (Needs Livestakes)") +
+      geom_sf(data = CE_site, colour = "red", fill = NA) + 
+      {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+      geom_sf(data = Line_C[Line_C$Subtype == 4,], linewidth = 1) +
+      geom_text_repel(data = Line_C[Line_C$Subtype == 4,], aes(label = OBJECTID, geometry = geom),
+                      stat = "sf_coordinates", size = 3)}}
+
+```
+
+```{r channelCSEmap, echo=FALSE, results='asis'}
+if(nrow(SiteC_table) > 0){
+  if(any(SiteC$Subtype == "Channel Stability/Erosion")){
+    ggplot() +
+      theme_void() +
+      labs(title = "Channel Issues (Channel Stability/Erosion)") +
+      geom_sf(data = CE_site, colour = "red", fill = NA) + 
+      {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+      geom_sf(data = Line_C[Line_C$Subtype == 2,], linewidth = 1) +
+      geom_text_repel(data = Line_C[Line_C$Subtype == 2,], 
+                      aes(label = OBJECTID, geometry = geom),
+                      stat = "sf_coordinates", size = 3)}}
+
+if(nrow(SiteC_table) > 0){
+  cat("\n\\pagebreak\n")}
+```
+
+
+
+
+## Vegetation Issues
+
+```{r vegetation, echo=FALSE}
+SiteV_table <- SiteV %>%
+  rename(Description = Issue_Desc,
+         Treatment = Treat_Desc,
+         Method = Treat_Method_1) %>%
+  filter(!is.na(Site)) %>%
+  select(1,3:(length(SiteV)-2)) %>%
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), ~gsub(pattern = "_", replacement = "", .)),
+         across(everything(), ~gsub(pattern = "&", replacement = "and", .)),
+         across(everything(), ~gsub(pattern = "%", replacement = " pct", .)),
+         across(everything(), ~gsub(pattern = "#", replacement = "", .)))
+
+if(nrow(SiteV_table) > 0){
+  kbl(SiteV_table, row.names = F, escape = F, booktabs = T) %>%
+  column_spec(3:5, width = "2in") %>%
+  kable_styling(font_size = 8, latex_options = "striped",
+                position = "left")}
+```
+
+```{r vegplmap, echo=FALSE, results='asis'}
+if(nrow(SiteV) > 0){
+  ggplot() +
+    theme_void() +
+    labs(title = "Vegetation Issues (polygons)") +
+    geom_sf(data = Poly_V) +
+    geom_sf(data = CE_site, colour = "red", fill = NA) + 
+    {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+    geom_sf_text(data = Poly_V, aes(label = OBJECTID), size = 3)}
+if(nrow(SiteV) > 0){
+  cat("\n\\pagebreak\n")}
+```
+
+
+
+
+## Weed Issues
+
+```{r weeds, echo=FALSE}
+SiteW_table <- SiteW %>%
+  rename(Species1 = InvSpecies_1, 
+         Species2 = InvSpecies_2, 
+         Issue = Issue_Desc,
+         Treatment = Treat_Desc,
+         Method = Treat_Method_1) %>%
+  filter(!is.na(Site)) %>%
+  select(1,3:(length(SiteW)-2)) %>%
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), ~gsub(pattern = "_", replacement = "", .)),
+         across(everything(), ~gsub(pattern = "&", replacement = "and", .)),
+         across(everything(), ~gsub(pattern = "%", replacement = " pct", .)),
+         across(everything(), ~gsub(pattern = "#", replacement = "", .)))
+
+
+if(nrow(SiteW_table) > 0){
+  kbl(SiteW_table, row.names = F, escape = F, booktabs = T) %>%
+    column_spec(5:6, width = "2in") %>%
+    kable_styling(font_size = 8, latex_options = "striped",
+                  position = "left")}
+```
+
+```{r weedspecmap, echo=FALSE}
+if(nrow(SiteW_table) > 0){
+  for(i in unique(SiteW_table$Species1)){
+    print(ggplot() +
+      theme_void() +
+      labs(title = paste("Weed Issues -", i, sep = " ")) +
+      {if(any(Poly_W$Site ==s))geom_sf(data = Poly_W[Poly_W$InvSpecies_1 == i,])} +
+      geom_sf(data = CE_site, colour = "red", fill = NA) + 
+      {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+      {if(any(Line_W$Site ==s))geom_sf(data = Line_W[Line_W$InvSpecies_1 == i,])} +
+      {if(any(Point_W$Site ==s))geom_sf(data = Point_W[Point_W$InvSpecies_1 == i,])} +
+      {if(any(Poly_W$Site ==s))geom_sf_text(data = Poly_W[Poly_W$InvSpecies_1 == i,], 
+                                            aes(label = OBJECTID), size = 3)} +
+      {if(any(Line_W$Site ==s))geom_text_repel(data = Line_W[Line_W$InvSpecies_1 == i,], 
+                                               aes(label = OBJECTID, geometry = geom),
+                                               stat = "sf_coordinates", size = 3)} +
+      {if(any(Point_W$Site ==s))geom_text_repel(data = Point_W[Point_W$InvSpecies_1 == i,], 
+                                               aes(label = OBJECTID, geometry = geom),
+                                               stat = "sf_coordinates", size = 3)})
+    cat("  \n")
+  }}
+```
+
+
+
+
+
+## Miscellaneous Issues
+
+```{r misc, echo=FALSE}
+SiteM_table <- SiteM %>%
+  rename(Treatment = Treat_Desc,
+         Description = Issue_Desc,
+         LocationOrFeature = Issue_LocationOrFeature) %>%
+  filter(!is.na(Site)) %>%
+  select(1,3:(length(SiteM)-2)) %>%
+  discard(~all(is.na(.) | . == "")) %>%
+  mutate(across(everything(), ~gsub(pattern = "_", replacement = "", .)),
+         across(everything(), ~gsub(pattern = "&", replacement = "and", .)),
+         across(everything(), ~gsub(pattern = "%", replacement = " pct", .)),
+         across(everything(), ~gsub(pattern = "#", replacement = "", .)))
+
+if(nrow(SiteM_table) > 0){
+  kbl(SiteM_table, row.names = F, escape = F, booktabs = T) %>%
+  column_spec(4:5, width = "2in") %>%
+  kable_styling(font_size = 8, latex_options = "striped",
+                position = "left")
+}
+
+```
+
+```{r miscbeavmap, echo=FALSE}
+if(nrow(SiteM_table) > 0){
+  if(any(SiteM_table$Subtype == "Beaver Dam")){
+    print(ggplot() +
+      theme_void() +
+      labs(title = "Miscellaneous - Beaver Dam") +
+      geom_sf(data = CE_site, colour = "red", fill = NA) + 
+      {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+      geom_sf(data = Point_M[Point_M$Subtype == "Beaver Dam",]) +
+      geom_text_repel(data = Point_M[Point_M$Subtype == "Beaver Dam",], aes(label = OBJECTID, geometry = geom),
+                      stat = "sf_coordinates", size = 3))
+    cat("  \n")
+  }}
+```
+
+```{r miscsoilmap, echo=FALSE}
+if(nrow(SiteM_table) > 0){
+  if(any(SiteM_table$Subtype == "Soil Sample")){
+    print(ggplot() +
+      theme_void() +
+      labs(title = "Miscellaneous - Soil Samples") +
+        geom_sf(data = CE_site, colour = "red", fill = NA) + 
+      {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+      geom_sf(data = Point_M[Point_M$Subtype == "Soil Sample",]) +
+      geom_text_repel(data = Point_M[Point_M$Subtype == "Soil Sample",], aes(label = OBJECTID, geometry = geom),
+                      stat = "sf_coordinates", size = 3))
+    cat("  \n")
+  }}
+```
+
+```{r miscmap, echo=FALSE}
+if(nrow(SiteM_table) > 0){
+  if(any(SiteM_table$Subtype == "Misc")){
+    print(ggplot() +
+      theme_void() +
+      labs(title = "Miscellaneous Issues") +
+      {if(any(Poly_M$Site ==s))geom_sf(data = Poly_M[Poly_M$Subtype == "Misc",])} +
+      geom_sf(data = CE_site, colour = "red", fill = NA) + 
+      {if(any(Streams_site$Site == s))geom_sf(data = Streams_site, colour = "blue")} +
+      {if(any(Line_M$Site ==s))geom_sf(data = Line_M[Line_M$Subtype == "Misc",])} +
+      {if(any(Point_M$Site ==s))geom_sf(data = Point_M[Point_M$Subtype == "Misc",])} +
+      {if(any(Poly_M$Site ==s))geom_sf_text(data = Poly_M[Poly_M$Subtype == "Misc",], 
+                                            aes(label = OBJECTID), size = 3)} + 
+      {if(any(Line_M$Site ==s))geom_text_repel(data = Line_M[Line_M$Subtype == "Misc",], 
+                                               aes(label = OBJECTID, geometry = geom), 
+                                               stat = "sf_coordinates", size = 3)} +
+      {if(any(Point_M$Site ==s))geom_text_repel(data = Point_M[Point_M$Subtype == "Misc",], 
+                                               aes(label = OBJECTID, geometry = geom),
+                                               stat = "sf_coordinates", size = 3)})
+    cat("  \n")
+  }}
+```
+
